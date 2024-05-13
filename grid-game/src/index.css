@@ -1,16 +1,27 @@
+:root {
+  --color-primary: #6741d9;
+  --color-primary-light: #7950f2;
+  --color-text: #dee2e6;
+  --color-text-dark: #adb5bd;
+  --color-background-100: #343a40;
+  --color-background-500: #2b3035;
+  --color-background-900: #212529;
+  --color-grey: #898989;
+  --color-red-dark: #e03131;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+ 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: #222;
   color: #89b549;
-  font-family: "Bungee", cursive;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
-h1 {
+/* h1 {
   text-align: right;
   letter-spacing: 3px;
   font-size: 3vw;
@@ -20,6 +31,34 @@ h1 {
   -o-transform: skew(-63deg, 26.6deg);
   -ms-transform: skew(-63deg, 26.6deg);
   transform: skew(-63deg, 26.6deg);
+} */
+.logo h1 {
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+}
+
+.logo h2 {
+  text-align: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.btn-add {
+  background-color: var(--color-red-dark);
+  color: var(--color-text);
+  border: none;
+  border-radius: 10rem;
+  font-size: 1.4rem;
+  padding: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
 }
 
 img {
@@ -178,3 +217,14 @@ img {
   border: 1px solid #89b549;
   z-index: 2000;
 }
+
+.nav-bar {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  height: 7.2rem;
+  padding: 0 3.2rem;
+  background-color: var(--color-grey);
+  border-radius: 0.9rem;
+}
+
