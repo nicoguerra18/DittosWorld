@@ -21,7 +21,7 @@ body {
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
-/* h1 {
+h1 {
   text-align: right;
   letter-spacing: 3px;
   font-size: 3vw;
@@ -31,23 +31,8 @@ body {
   -o-transform: skew(-63deg, 26.6deg);
   -ms-transform: skew(-63deg, 26.6deg);
   transform: skew(-63deg, 26.6deg);
-} */
-.logo h1 {
-  font-size: 2.4rem;
-  font-weight: 600;
-  color: #fff;
-  text-align: center;
-}
+} 
 
-.logo h2 {
-  text-align: center;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-}
 
 .btn-add {
   background-color: var(--color-red-dark);
