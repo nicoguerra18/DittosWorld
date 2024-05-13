@@ -5,41 +5,41 @@ import {
   roadGrassAbove,
   roadGrassBelow,
   water,
-  waterBeachAbove,
-  waterBeachBelow,
   waterGrassAbove,
   waterGrassBelow,
 } from "../images";
 import { WORLD_SIZE, TILE_ASPECT_RATIO } from "../constants";
 import Tile from "./Tile";
 
-function Landscape() {
-  const tiles = [];
-  for (let i = WORLD_SIZE; i > 0; i--) {
-    if (i === 1 || i === 6 || i === 9) {
-      tiles.push(Array(WORLD_SIZE).fill("grass"));
-    } else if (i === 2) {
-      tiles.push(Array(WORLD_SIZE).fill("roadGrassBelow"));
-    } else if (i === 3 || i === 4) {
-      tiles.push(Array(WORLD_SIZE).fill("road"));
-    } else if (i === 5) {
-      tiles.push(Array(WORLD_SIZE).fill("roadGrassAbove"));
-    } else if (i === 7) {
-      tiles.push(Array(WORLD_SIZE).fill("waterGrassBelow"));
-    } else if (i === 8) {
-      tiles.push(Array(WORLD_SIZE).fill("waterGrassAbove"));
-    }
+const yOffset = ((100 / WORLD_SIZE) * TILE_ASPECT_RATIO) / 1.8;
+const tiles = [];
+
+for (let i = WORLD_SIZE; i > 0; i--) {
+  if (i === 1 || i === 6 || i === 9) {
+    tiles.push(Array(WORLD_SIZE).fill("grass"));
+  } else if (i === 2) {
+    tiles.push(Array(WORLD_SIZE).fill("roadGrassBelow"));
+  } else if (i === 3 || i === 4) {
+    tiles.push(Array(WORLD_SIZE).fill("road"));
+  } else if (i === 5) {
+    tiles.push(Array(WORLD_SIZE).fill("roadGrassAbove"));
+  } else if (i === 7) {
+    tiles.push(Array(WORLD_SIZE).fill("waterGrassBelow"));
+  } else if (i === 8) {
+    tiles.push(Array(WORLD_SIZE).fill("waterGrassAbove"));
   }
-  const yOffset = (100 / WORLD_SIZE) * (TILE_ASPECT_RATIO / 3);
+}
+
+function Landscape() {
   return (
     <>
       {tiles.map((row, y) => {
-        const yBase = y * yOffset;
+        const yBase = y === 2 ? yOffset * (1 / 0.8) * y : yOffset * y;
         const xBase = 50 - (100 / 18) * y;
-        row.map((tile, x) => {
+        return row.map((tile, x) => {
           const z = x + 100;
+          const xAbs = xBase + (50 / 9) * x;
           const yAbs = yBase + yOffset * x;
-          const xAbs = xBase + (100 / 18) * x;
           let src;
           if (tile === "grass") {
             src = grass;
@@ -51,17 +51,18 @@ function Landscape() {
             src = roadGrassAbove;
           } else if (tile === "roadGrassBelow") {
             src = roadGrassBelow;
-          } else if (tile === "waterGrassBelow") {
-            src = waterGrassBelow;
           } else if (tile === "waterGrassAbove") {
             src = waterGrassAbove;
+          } else if (tile === "waterGrassBelow") {
+            src = waterGrassBelow;
           }
-
+          console.log(x + " " + y + " " + z);
           return <Tile key={`${x}${y}`} src={src} x={xAbs} y={yAbs} z={z} />;
         });
       })}
     </>
   );
 }
+// export default React.memo(Landscape);
+export default Landscape;
 
-export default React.memo(Landscape);

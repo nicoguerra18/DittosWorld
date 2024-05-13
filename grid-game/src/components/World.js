@@ -1,8 +1,9 @@
 import Landscape from "./Landscape";
+import React from "react";
 
 function World() {
   return (
-    <div>
+    <div className="world">
       <Landscape />
     </div>
   );
