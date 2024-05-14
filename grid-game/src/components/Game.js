@@ -16,7 +16,10 @@ function Game() {
     <>
       {entered ? (
         ready ? (
-          <World selectedPokemon={selectedPokemon} />
+          <div>
+            {/* <h2>Your Pokemon: {selectedPokemon.name.toUpperCase()}</h2> */}
+            <World selectedPokemon={selectedPokemon} />
+          </div>
         ) : (
           <PokemonPicker
             setSelectedPokemon={setSelectedPokemon}
@@ -77,7 +80,7 @@ function PokemonPicker({ setSelectedPokemon, setReady }) {
 
   const handleReady = () => {
     if (pokemonData.length > 0) {
-      setSelectedPokemon(pokemonData[0].name);
+      setSelectedPokemon(pokemonData[0]);
       setReady(true);
     } else {
       setError("Please enter a Pokemon name.");
@@ -123,10 +126,11 @@ function PokemonPicker({ setSelectedPokemon, setReady }) {
           {error && <p>❌ {error}</p>}
         </div>
         <br />
-
-        <button className="mybutton" onClick={handleReady}>
-          Select Pokemon
-        </button>
+        {pokemonData.length > 0 && ( // Conditionally render the button
+          <button className="mybutton" onClick={handleReady}>
+            Select Pokemon
+          </button>
+        )}
       </div>
     </div>
   );

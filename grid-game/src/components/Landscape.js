@@ -15,7 +15,7 @@ const yOffset = ((100 / WORLD_SIZE) * TILE_ASPECT_RATIO) / 1.8;
 const tiles = [];
 
 // increase size
-const extendedWorld = WORLD_SIZE + 5;
+const extendedWorld = WORLD_SIZE;
 
 // for (let i = WORLD_SIZE ; i > 0; i--) {
 //   if (i === 1 || i === 6 || i === 9) {
@@ -64,7 +64,7 @@ function Landscape() {
           } else if (tile === "waterGrassBelow") {
             src = waterGrassBelow;
           }
-          console.log(x + " " + y + " " + z);
+
           return <Tile key={`${x}${y}`} src={src} x={xAbs} y={yAbs} z={z} />;
         });
       })}

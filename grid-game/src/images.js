@@ -16,6 +16,7 @@ import waterBeachBelow from "./images/water_beach_below.png";
 import waterGrassAbove from "./images/water_grass_above.png";
 import waterGrassBelow from "./images/water_grass_below.png";
 import frogDead from "./images/skull.png";
+import berry from "./images/GO_Razz_Berry.png";
 
 export {
   boatUp,
@@ -36,4 +37,5 @@ export {
   waterBeachBelow,
   waterGrassAbove,
   waterGrassBelow,
+  berry,
 };

@@ -1,18 +1,26 @@
-import { frogNE, frogNW, frogSW, frogSE } from "../images";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { atom, useRecoilValue, useRecoilState } from "recoil";
 import { WORLD_SIZE, TILE_ASPECT_RATIO } from "../constants";
-import Landscape from "./Landscape";
-
-function Player({ selectedPokemon }) {
+function Player({ selectedPokemon, onMove }) {
   const playerState = atom({
     key: "playerState",
     default: { x: 4, y: 8, dir: "up", dead: false },
   });
   const [player, setPlayer] = useRecoilState(playerState);
+  const [canMove, setCanMove] = useState(true);
+
+  const pokemonSprites = {
+    front: selectedPokemon.sprites["front_default"],
+    back: selectedPokemon.sprites["back_default"],
+    left: selectedPokemon.sprites["back_default"],
+    right: selectedPokemon.sprites["front_default"],
+  };
 
   useEffect(() => {
     const handleKeyDown = (event) => {
+      event.preventDefault(); // Prevent the default behavior of arrow keys (scrolling)
+      if (!canMove) return; // If cannot move, ignore key press
+
       switch (event.key) {
         case "ArrowUp":
           setPlayer((prevPlayer) => ({
@@ -24,7 +32,7 @@ function Player({ selectedPokemon }) {
         case "ArrowDown":
           setPlayer((prevPlayer) => ({
             ...prevPlayer,
-            y: Math.min(prevPlayer.y + 1, WORLD_SIZE + 5 - 1),
+            y: Math.min(prevPlayer.y + 1, WORLD_SIZE - 1),
             dir: "down",
           }));
           break;
@@ -38,13 +46,22 @@ function Player({ selectedPokemon }) {
         case "ArrowRight":
           setPlayer((prevPlayer) => ({
             ...prevPlayer,
-            x: Math.min(prevPlayer.x + 1, WORLD_SIZE + 5 - 1),
+            x: Math.min(prevPlayer.x + 1, WORLD_SIZE - 1),
             dir: "right",
           }));
           break;
         default:
           break;
       }
+
+      // Disable movement for a short duration after each key press
+      setCanMove(false);
+      setTimeout(() => {
+        setCanMove(true);
+      }, 350); // Adjust the delay time as needed (in milliseconds)
+
+      // Trigger the onMove function with the updated player position
+      onMove(player.x, player.y);
     };
 
     window.addEventListener("keydown", handleKeyDown);
@@ -52,7 +69,7 @@ function Player({ selectedPokemon }) {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [setPlayer]);
+  }, [setPlayer, canMove, onMove, player.x, player.y]);
 
   // Calc abs position
   const yOffset = ((100 / WORLD_SIZE) * TILE_ASPECT_RATIO) / 1.8;
@@ -61,24 +78,36 @@ function Player({ selectedPokemon }) {
   const xAbs = xBase + (50 / 9) * player.x;
   const yAbs = yBase + yOffset * player.x;
 
-  // Get corrrect image from direction
+  // Get correct image from direction
   let src;
 
-  if (player.dir === "up") {
-    src = frogNE;
-  } else if (player.dir === "down") {
-    src = frogSW;
-  } else if (player.dir === "left") {
-    src = frogNW;
-  } else if (player.dir === "right") {
-    src = frogSE;
+  switch (player.dir) {
+    case "up":
+      src = pokemonSprites.back;
+      break;
+    case "down":
+      src = pokemonSprites.front;
+      break;
+    case "left":
+      src = pokemonSprites.left;
+      break;
+    case "right":
+      src = pokemonSprites.right;
+      break;
+
+    default:
+      break;
   }
   return (
     <>
       <img
         alt="frog"
         className={`frog ${player.dead && "dead"}`}
-        style={{ top: `${yAbs}%`, left: `${xAbs}%` }}
+        style={{
+          position: "absolute",
+          top: `${yAbs}%`,
+          left: `${xAbs}%`,
+        }}
         src={src}
       />
     </>
