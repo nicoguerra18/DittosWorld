@@ -8,30 +8,29 @@ function World({ selectedPokemon }) {
   const [berries, setBerries] = useState({});
   const [berryCount, setBerryCount] = useState(0);
 
-  // generate berries useEffect
+  // Generate berries useEffect
   useEffect(() => {
     const intervalId = setInterval(() => {
-      // Generate random coordinates for the new berry
-      const x = Math.floor(Math.random() * WORLD_SIZE);
-      const y = Math.floor(Math.random() * WORLD_SIZE);
-
-      // Add the new berry to the list of berries
       if (Object.keys(berries).length < 5) {
-        setBerries((prevBerries) => {
-          // Ensure the new berry position is unique
-          const newPosition = `${x},${y}`;
-          if (!(newPosition in prevBerries)) {
-            return { ...prevBerries, [newPosition]: { x, y } };
-          }
-          return { ...prevBerries };
-        });
+        // Generate random coordinates for the new berry
+        const x = Math.floor(Math.random() * WORLD_SIZE);
+        const y = Math.floor(Math.random() * WORLD_SIZE);
+        const newPosition = `${x},${y}`;
+
+        // Ensure the new berry position is unique
+        if (!(newPosition in berries)) {
+          setBerries((prevBerries) => ({
+            ...prevBerries,
+            [newPosition]: { x, y },
+          }));
+        }
       }
     }, 5000); // Adjust the interval time as needed (in milliseconds)
 
     return () => {
       clearInterval(intervalId);
     };
-  }, [berries]); // Add berries as a dependency to ensure useEffect is called whenever berries change
+  }, [berries]);
 
   const checkBerryCollision = (playerX, playerY) => {
     const playerPosition = `${playerX},${playerY}`;
@@ -52,9 +51,10 @@ function World({ selectedPokemon }) {
       <Landscape />
       <h3># of Berries: {berryCount}</h3>
       <Player selectedPokemon={selectedPokemon} onMove={checkBerryCollision} />
-      {Object.values(berries).map((berry, index) => (
-        <Berry key={index} x={berry.x} y={berry.y} />
-      ))}
+      {Object.entries(berries).map(
+        ([position, berry]) =>
+          berry && <Berry key={position} x={berry.x} y={berry.y} />
+      )}
     </div>
   );
 }
