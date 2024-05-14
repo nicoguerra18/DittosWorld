@@ -4,7 +4,7 @@ import { atom, useRecoilValue, useRecoilState } from "recoil";
 import { WORLD_SIZE, TILE_ASPECT_RATIO } from "../constants";
 import Landscape from "./Landscape";
 
-function Player() {
+function Player({ selectedPokemon }) {
   const playerState = atom({
     key: "playerState",
     default: { x: 4, y: 8, dir: "up", dead: false },

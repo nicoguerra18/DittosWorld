@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PokeHopper from "./components/PokeHopper";
+import Game from "./components/Game";
 import PokemonPicker from "./components/PokemonPicker";
 import Button from "react-bootstrap/Button";
 import { RecoilRoot } from "recoil";
@@ -12,7 +12,7 @@ function App() {
       <div>
         {/* <PokemonPicker setSelectedPokemon={setSelectedPokemon} /> */}
 
-        <PokeHopper />
+        <Game />
       </div>
     </RecoilRoot>
   );

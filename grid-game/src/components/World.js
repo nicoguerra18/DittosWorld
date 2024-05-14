@@ -2,13 +2,16 @@ import Landscape from "./Landscape";
 import React from "react";
 import Player from "./Player";
 
-function World() {
+function World({ selectedPokemon }) {
   return (
     <div className="world">
+      {console.log(selectedPokemon)}
       <Landscape />
-      <Player />
+      <Player selectedPokemon={selectedPokemon} />
     </div>
   );
 }
+
+
 
 export default World;
