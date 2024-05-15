@@ -4,6 +4,7 @@ import Player from "./Player";
 import Berry from "./Berry";
 import { WORLD_SIZE, TILE_ASPECT_RATIO } from "../constants";
 
+
 function World({ selectedPokemon }) {
   const [berries, setBerries] = useState({});
   const [berryCount, setBerryCount] = useState(0);
@@ -49,7 +50,7 @@ function World({ selectedPokemon }) {
   return (
     <div className="world">
       <Landscape />
-      <h3># of Berries: {berryCount}</h3>
+      <h3> Berries: {berryCount}</h3>
       <Player selectedPokemon={selectedPokemon} onMove={checkBerryCollision} />
       {Object.entries(berries).map(
         ([position, berry]) =>

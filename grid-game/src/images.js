@@ -17,6 +17,7 @@ import waterGrassAbove from "./images/water_grass_above.png";
 import waterGrassBelow from "./images/water_grass_below.png";
 import frogDead from "./images/skull.png";
 import berry from "./images/GO_Razz_Berry.png";
+import cloud from "./images/beautiful-clouds-digital-art.png";
 
 export {
   boatUp,
@@ -38,4 +39,5 @@ export {
   waterGrassAbove,
   waterGrassBelow,
   berry,
+  cloud,
 };
