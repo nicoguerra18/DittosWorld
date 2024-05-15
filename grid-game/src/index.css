@@ -210,13 +210,14 @@ img {
 }
 
 .nav-bar {
-  display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
   height: 7.2rem;
   padding: 0 3.2rem;
-  background-color: var(--color-grey);
-  border-radius: 0.9rem;
+  background-color: var(--color-background-900);
+  display: flex;
+  justify-content: center;
+  
 }
 
 .intro-container {
@@ -247,7 +248,6 @@ img {
 }
 
 
-
 h2 {
   font-size: 4vw;
 }
@@ -274,4 +274,161 @@ h2 {
   outline: none;
   box-shadow: 0 2.4rem 2.4rem rgba(0, 0, 0, 0.1);
   transform: translateY(-2px);
+}
+
+.box {
+  border-radius: 0.9rem;
+  overflow: scroll;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 1300;
+}
+/*******************************/
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  
+}
+
+.logo span {
+  font-size: 3.2rem;
+}
+
+.logo h1 {
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+}
+
+.logo h2 {
+  text-align: center;
+}
+/*******************************/
+
+.btn-toggle {
+  position: absolute;
+  right: 0.8rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--color-grey);
+  color: var(--color-text);
+  font-size: 50%;
+  font-weight: bold;
+  cursor: pointer;
+  display: relative;
+  z-index: 1500;
+
+ 
+}
+
+/*******************************/
+.list {
+  list-style: none;
+  padding: 0.8rem 0;
+  overflow: scroll;
+}
+
+.list-watched {
+  height: calc(100% - 9rem);
+}
+
+.list li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 4rem 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 2.4rem;
+  font-size: 1.6rem;
+  align-items: center;
+
+  padding: 1.6rem 3.2rem;
+  border-bottom: 1px solid var(--color-background-100);
+}
+
+.list.list-movies li {
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.list.list-movies li:hover {
+  background-color: var(--color-background-100);
+}
+
+.list img {
+  width: 100%;
+  grid-row: 1 / -1;
+}
+
+.list h3 {
+  font-size: 1.8rem;
+}
+
+.list div {
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;
+}
+
+.list p {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+/*******************************/
+
+
+.summary {
+  padding: 0.5rem 2.2rem 0.5rem 2.2rem;
+  border-radius: 0.9rem;
+  background-color: var(--color-background-900);
+  box-shadow: 0 1.2rem 2.4rem rgba(0, 0, 0, 0.2);
+  width: calc(100%);
+
+}
+
+.summary h2 {
+  text-transform: uppercase;
+  font-size: 1.6rem;
+  margin-bottom: 0.6rem;
+  
+}
+
+.summary div {
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.summary p {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+/*******************************/
+
+.title {
+    font-size:3vw;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    display: relative;
+}
+
+.pokedexSum {
+    font-size:3vw;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+    display: relative;
+    gap: 2rem; /* Adjust the gap between child elements */
+    
+
 }

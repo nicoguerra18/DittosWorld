@@ -4,12 +4,15 @@ import Player from "./Player";
 import Berry from "./Berry";
 import StaticObjects from "./StaticObjects";
 import Pokeball from "./Pokeball";
+import Pokedex from "./Pokedex";
+import { pokeball } from "../images";
 
 function World({ selectedPokemon }) {
   const [berries, setBerries] = useState({});
   const [berryCount, setBerryCount] = useState(0);
   const [pokeballs, setPokeballs] = useState({});
   const [pokeballCount, setPokeballCount] = useState(0);
+  const [myPokemonList, setMyPokemonList] = useState({});
 
   StaticObjects(berries, setBerries, 5000, 5); // Generate berries
   StaticObjects(pokeballs, setPokeballs, 5000, 5); // Generate pokeballs
@@ -43,24 +46,60 @@ function World({ selectedPokemon }) {
   };
 
   return (
-    <div className="world">
-      <Landscape />
-      <h3> Berries: {berryCount}</h3>
-      <h3> Pokeballs: {pokeballCount}</h3>
-      <Player
-        selectedPokemon={selectedPokemon}
-        onMove1={checkBerryCollision}
-        onMove2={checkPokeballCollision}
+    <>
+      <NavBar
+        myPokemonList={myPokemonList}
+        pokeballCount={pokeballCount}
+        berryCount={berryCount}
       />
-      {Object.entries(berries).map(
-        ([position, berry]) =>
-          berry && <Berry key={position} x={berry.x} y={berry.y} />
-      )}
-      {Object.entries(pokeballs).map(
-        ([position, pokeball]) =>
-          pokeball && <Pokeball key={position} x={pokeball.x} y={pokeball.y} />
-      )}
+      <div className="world">
+        <Landscape />
+        <Player
+          selectedPokemon={selectedPokemon}
+          onMove1={checkBerryCollision}
+          onMove2={checkPokeballCollision}
+        />
+        {Object.entries(berries).map(
+          ([position, berry]) =>
+            berry && <Berry key={position} x={berry.x} y={berry.y} />
+        )}
+        {Object.entries(pokeballs).map(
+          ([position, pokeball]) =>
+            pokeball && (
+              <Pokeball key={position} x={pokeball.x} y={pokeball.y} />
+            )
+        )}
+      </div>
+    </>
+  );
+}
+
+function Logo() {
+  return (
+    <div className="logo">
+      <img
+        src={pokeball}
+        style={{ width: "35px", height: "35px", marginRight: "10px" }}
+      />
+      <div className="title">Pokemon Game</div>
+      <img
+        src={pokeball}
+        style={{ width: "35px", height: "35px", marginRight: "10px" }}
+      />
     </div>
+  );
+}
+
+function NavBar({ myPokemonList, pokeballCount, berryCount }) {
+  return (
+    <nav className="nav-bar">
+      <Logo />
+      <Pokedex
+        myPokemonList={myPokemonList}
+        pokeballCount={pokeballCount}
+        berryCount={berryCount}
+      />
+    </nav>
   );
 }
 
