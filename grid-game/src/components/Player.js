@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { atom, useRecoilValue, useRecoilState } from "recoil";
 import { WORLD_SIZE, TILE_ASPECT_RATIO } from "../constants";
-function Player({ selectedPokemon, onMove }) {
+function Player({ selectedPokemon, onMove1, onMove2 }) {
   const playerState = atom({
     key: "playerState",
     default: { x: 4, y: 8, dir: "up", dead: false },
@@ -61,7 +61,8 @@ function Player({ selectedPokemon, onMove }) {
       }, 350); // Adjust the delay time as needed (in milliseconds)
 
       // Trigger the onMove function with the updated player position
-      onMove(player.x, player.y);
+      onMove1(player.x, player.y);
+      onMove2(player.x, player.y);
     };
 
     window.addEventListener("keydown", handleKeyDown);
@@ -69,7 +70,7 @@ function Player({ selectedPokemon, onMove }) {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [setPlayer, canMove, onMove, player.x, player.y]);
+  }, [setPlayer, canMove, onMove1, onMove2, player.x, player.y]);
 
   // Calc abs position
   const yOffset = ((100 / WORLD_SIZE) * TILE_ASPECT_RATIO) / 1.8;
@@ -101,8 +102,8 @@ function Player({ selectedPokemon, onMove }) {
   return (
     <>
       <img
-        alt="frog"
-        className={`frog ${player.dead && "dead"}`}
+        alt="player"
+        className={`player ${player.dead && "dead"}`}
         style={{
           position: "absolute",
           top: `${yAbs}%`,
