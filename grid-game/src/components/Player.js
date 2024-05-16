@@ -16,6 +16,11 @@ function Player({ selectedPokemon, onMove1, onMove2, onMove3 }) {
     right: selectedPokemon.sprites["front_default"],
   };
 
+  // Trigger the onMove function with the updated player position
+  onMove1(player.x, player.y);
+  onMove2(player.x, player.y);
+  onMove3(player.x, player.y);
+
   useEffect(() => {
     const handleKeyDown = (event) => {
       event.preventDefault(); // Prevent the default behavior of arrow keys (scrolling)
@@ -59,11 +64,6 @@ function Player({ selectedPokemon, onMove1, onMove2, onMove3 }) {
       setTimeout(() => {
         setCanMove(true);
       }, 350); // Adjust the delay time as needed (in milliseconds)
-
-      // Trigger the onMove function with the updated player position
-      onMove1(player.x, player.y);
-      onMove2(player.x, player.y);
-      onMove3(player.x, player.y);
     };
 
     window.addEventListener("keydown", handleKeyDown);

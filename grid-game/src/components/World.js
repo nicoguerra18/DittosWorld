@@ -17,6 +17,7 @@ function World({ selectedPokemon }) {
   const [pokeballCount, setPokeballCount] = useState(0);
   const [myPokemonList, setMyPokemonList] = useState({});
   const [wildPokemon, setWildPokemon] = useState({});
+  const [modalOpen, setModalOpen] = useState(false); // Open Catch Pokemon modal
 
   StaticObjects(berries, setBerries, 5000, 5); // Generate berries
   StaticObjects(pokeballs, setPokeballs, 5000, 5); // Generate pokeballs
@@ -49,19 +50,19 @@ function World({ selectedPokemon }) {
     return () => clearInterval(intervalId);
   }, [wildPokemon]);
 
-  // 2. Once I have the wildPokemon i can iterate through wild pokemon and add them to the map
-
   const checkBerryCollision = (playerX, playerY) => {
     const playerPosition = `${playerX},${playerY}`;
     if (playerPosition in berries) {
       // Remove the berry from the list of berries
-      setBerries((prevBerries) => {
-        const updatedBerries = { ...prevBerries };
-        delete updatedBerries[playerPosition];
-        return updatedBerries;
-      });
-      // increase the player's score when they catch a berry
-      setBerryCount((prevCount) => prevCount + 1);
+      setTimeout(() => {
+        setBerries((prevBerries) => {
+          const updatedBerries = { ...prevBerries };
+          delete updatedBerries[playerPosition];
+          return updatedBerries;
+        });
+        // increase the player's score when they catch a berry
+        setBerryCount((prevCount) => prevCount + 1);
+      }, 350); // Adjust the delay time as needed (in milliseconds)
     }
   };
 
@@ -69,13 +70,17 @@ function World({ selectedPokemon }) {
     const playerPosition = `${playerX},${playerY}`;
     if (playerPosition in pokeballs) {
       // Remove the berry from the list of berries
-      setPokeballs((prevPokeballs) => {
-        const updatedPokeballs = { ...prevPokeballs };
-        delete updatedPokeballs[playerPosition];
-        return updatedPokeballs;
-      });
-      // increase the player's score when they catch a berry
-      setPokeballCount((prevCount) => prevCount + 1);
+
+      // Add a slight delay before picking up pokeball
+      setTimeout(() => {
+        setPokeballs((prevPokeballs) => {
+          const updatedPokeballs = { ...prevPokeballs };
+          delete updatedPokeballs[playerPosition];
+          return updatedPokeballs;
+        });
+        // increase the player's score when they catch a berry
+        setPokeballCount((prevCount) => prevCount + 1);
+      }, 350); // Adjust the delay time as needed (in milliseconds)
     }
   };
 
@@ -85,6 +90,7 @@ function World({ selectedPokemon }) {
     if (playerPosition in wildPokemon) {
       // Get the wild Pokemon object
       const pokemon = wildPokemon[playerPosition];
+      setModalOpen(true);
 
       // Remove the wild Pokemon from the list of wild Pokemon
       setWildPokemon((prevPokemon) => {
@@ -99,7 +105,6 @@ function World({ selectedPokemon }) {
       });
     }
   };
-
   return (
     <>
       <NavBar
@@ -134,12 +139,12 @@ function World({ selectedPokemon }) {
           />
         ))}
       </div>
-
       <Pokedex
         myPokemonList={myPokemonList}
         pokeballCount={pokeballCount}
         berryCount={berryCount}
       />
+      <CatchPokemonModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
     </>
   );
 }
@@ -165,6 +170,28 @@ function NavBar() {
     <nav className="nav-bar">
       <Logo />
     </nav>
+  );
+}
+
+function CatchPokemonModal({ modalOpen, setModalOpen }) {
+  return (
+    <div className="modal" style={{ display: modalOpen ? "block" : "none" }}>
+      <div className="modal-content">
+        <div className="modal-header">
+          <span className="close" onClick={() => setModalOpen(false)}>
+            &times;
+          </span>
+          <h2>Modal Header</h2>
+        </div>
+        <div className="modal-body">
+          <p>Some text in the Modal Body</p>
+          <p>Some other text...</p>
+        </div>
+        <div className="modal-footer">
+          <h3>Modal Footer</h3>
+        </div>
+      </div>
+    </div>
   );
 }
 

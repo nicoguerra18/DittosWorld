@@ -17,7 +17,6 @@ function Game() {
       {entered ? (
         ready ? (
           <div>
-            {/* <h2>Your Pokemon: {selectedPokemon.name.toUpperCase()}</h2> */}
             <World selectedPokemon={selectedPokemon} />
           </div>
         ) : (
