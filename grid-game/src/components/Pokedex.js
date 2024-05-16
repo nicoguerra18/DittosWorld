@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { pokeball } from "../images";
+import { dpokeball } from "../images";
 import { berry } from "../images";
 
 function Pokedex({ myPokemonList, berryCount, pokeballCount }) {
@@ -52,7 +52,7 @@ function YourPokemon({
 
       <div className="pokedexSum">
         <p>
-          <img src={pokeball} />
+          <img src={dpokeball} />
           <span>{pokeballCount}</span>
         </p>
         <p>
@@ -106,7 +106,7 @@ function Summary({ pokeballCount, berryCount, myPokemonList, togglePokedex }) {
       <div className="pokedexSum">
         <p>
           <img
-            src={pokeball}
+            src={dpokeball}
             alt="Pokeball"
             style={{ width: "3vw", height: "3vw" }}
           />

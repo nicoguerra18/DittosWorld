@@ -154,6 +154,7 @@ function World({ selectedPokemon }) {
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
         pokemon={encounteredPokemon}
+        player={selectedPokemon}
       />
     </>
   );
@@ -183,7 +184,7 @@ function NavBar() {
   );
 }
 
-function CatchPokemonModal({ modalOpen, setModalOpen, pokemon }) {
+function CatchPokemonModal({ modalOpen, setModalOpen, pokemon, player }) {
   return (
     <div className="modal" style={{ display: modalOpen ? "block" : "none" }}>
       <div className="modal-content">
@@ -191,7 +192,7 @@ function CatchPokemonModal({ modalOpen, setModalOpen, pokemon }) {
           Leave
         </span>
         <div className="modal-body">
-          {pokemon && <CatchPokemon pokemon={pokemon} />}
+          {pokemon && <CatchPokemon pokemon={pokemon} player={player} />}
         </div>
       </div>
     </div>

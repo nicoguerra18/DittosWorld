@@ -1,4 +1,4 @@
-import { pokeball } from "../images";
+import { dpokeball } from "../images";
 import { WORLD_SIZE, TILE_ASPECT_RATIO } from "../constants";
 
 function Pokeball({ x, y }) {
@@ -18,7 +18,7 @@ function Pokeball({ x, y }) {
           left: `${xAbs}%`,
           opacity: x < 0 || x > 8 ? 0 : 1,
         }}
-        src={pokeball}
+        src={dpokeball}
       />
     </>
   );

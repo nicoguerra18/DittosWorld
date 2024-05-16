@@ -124,7 +124,7 @@ img {
 }
 
 .pokeball {
-  transform: translate(-70%, -30%) rotateX(25deg) rotateY(25deg);;
+  transform: translate(-70%, -30%);
   z-index: 900;
   width: 2vw;
   height: 2vw;
@@ -288,12 +288,12 @@ h2 {
 }
 
 .box {
-  border-radius: 0.9rem;
+  /* border-radius: 0.0rem; */
   overflow: scroll;
   position: fixed;
   bottom: 0;
   right: 0;
-  z-index: 1300;
+  z-index: 1800;
   max-height: 89vh; /* Set the max height to 100% of viewport height */
 }
 /*******************************/
@@ -384,6 +384,7 @@ h2 {
   font-size: 1.6rem;
   margin-bottom: 0.6rem;
   color: #fff;
+  font-size: 4vw;
 }
 
 .list span{
@@ -413,6 +414,7 @@ h2 {
   background-color: var(--color-background-900);
   box-shadow: 0 1.2rem 2.4rem rgba(0, 0, 0, 0.2);
   width: calc(100%);
+
 }
 
 .summary h2 {
@@ -514,16 +516,17 @@ h2 {
   position: relative;
   background-image: url('./images/battle.png');
   background-repeat: no-repeat;
-  background-size: cover;
+  /* background-size: cover; */
+  background-size: 100% 100%; /* Adjusted background size */
   margin: auto;
   padding: 0;
   border: 1px solid #888;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
   animation-name: animatetop;
   animation-duration: 0.4s;
-  border-radius: 20px; /* Rounded corners */
-  height: 80vh;
-  width: 80vw
+  /*border-radius: 20px;  Rounded corners */
+  height: 88vh;
+  width: 100vw
 }
 
 /* Add Animation */
@@ -533,3 +536,56 @@ h2 {
 }
 
 /*******************************/
+
+.wildName {
+  color: #fff;
+  font-size: 2vw;
+  background-color: #5e5e5e; /* Background color */
+  padding: 0.5rem 1rem; /* Padding around the text */
+  border-radius: 1rem; /* Rounded corners */
+  display: inline-block; /* Make it behave like an inline element */
+}
+
+
+
+.battleball { 
+  width: 100px; 
+  height: 100px; 
+  border-radius: 50%; 
+  background-color: #FF5722; 
+  animation: bounce 0.5s; 
+  animation-direction: alternate; 
+  animation-timing-function: cubic-bezier(.5, 0.05, 1, .5); 
+  animation-iteration-count: infinite; 
+  z-index: 1500;
+} 
+
+@keyframes bounce { 
+  from { 
+      transform: translate3d(0, 0, 0); 
+  } 
+  to { 
+      transform: translate3d(0, 200px, 0); 
+  } 
+} 
+/* Prefix Support */ 
+
+.battleball { 
+  -webkit-animation-name: bounce; 
+  -webkit-animation-duration: 0.5s; 
+  -webkit-animation-direction: alternate; 
+  -webkit-animation-timing-function: cubic-bezier( 
+  .5, 0.05, 1, .5); 
+  -webkit-animation-iteration-count: infinite; 
+} 
+
+@-webkit-keyframes bounce { 
+  from { 
+      -webkit-transform: translate3d(0, 0, 0); 
+      transform: translate3d(0, 0, 0); 
+  } 
+  to { 
+      -webkit-transform: translate3d(0, 200px, 0); 
+      transform: translate3d(0, 200px, 0); 
+  } 
+} 
