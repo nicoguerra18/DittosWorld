@@ -470,23 +470,18 @@ h2 {
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding-top: 115px; /* Location of the box */
 }
 
 /* Modal Content/Box */
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
-}
 
 /* The Close Button */
 .close {
-  color: #aaa;
+  color: rgb(245, 245, 245);
   float: right;
-  font-size: 28px;
+  font-size: 30px;
   font-weight: bold;
+  padding:4px 
 }
 
 .close:hover,
@@ -498,13 +493,14 @@ h2 {
 
 /* Modal Header */
 .modal-header {
-  padding: 2px 16px;
-  background-color: #5cb85c;
+  padding:1px 16px;
+  background-color: #d30606;
   color: white;
+  border-radius: 20px; 
 }
 
 /* Modal Body */
-.modal-body {padding: 2px 16px;}
+.modal-body {padding: 2px 16px; }
 
 /* Modal Footer */
 .modal-footer {
@@ -516,14 +512,18 @@ h2 {
 /* Modal Content */
 .modal-content {
   position: relative;
-  background-color: #fefefe;
+  background-image: url('./images/battle.png');
+  background-repeat: no-repeat;
+  background-size: cover;
   margin: auto;
   padding: 0;
   border: 1px solid #888;
-  width: 80%;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
   animation-name: animatetop;
-  animation-duration: 0.4s
+  animation-duration: 0.4s;
+  border-radius: 20px; /* Rounded corners */
+  height: 80vh;
+  width: 80vw
 }
 
 /* Add Animation */

@@ -19,6 +19,8 @@ import frogDead from "./images/skull.png";
 import berry from "./images/GO_Razz_Berry.png";
 import cloud from "./images/beautiful-clouds-digital-art.png";
 import pokeball from "./images/pokeball.png";
+import battle from "./images/battle.png";
+
 
 export {
   boatUp,
@@ -42,4 +44,5 @@ export {
   berry,
   cloud,
   pokeball,
+  battle,
 };

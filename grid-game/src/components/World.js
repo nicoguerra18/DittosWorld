@@ -9,6 +9,7 @@ import { pokeball } from "../images";
 import WildPokemon from "./WildPokemon";
 import { WORLD_SIZE } from "../constants";
 import axios from "axios"; // Don't forget to import axios
+import CatchPokemon from "./CatchPokemon";
 
 function World({ selectedPokemon }) {
   const [berries, setBerries] = useState({});
@@ -18,6 +19,7 @@ function World({ selectedPokemon }) {
   const [myPokemonList, setMyPokemonList] = useState({});
   const [wildPokemon, setWildPokemon] = useState({});
   const [modalOpen, setModalOpen] = useState(false); // Open Catch Pokemon modal
+  const [encounteredPokemon, setEncounteredPokemon] = useState();
 
   StaticObjects(berries, setBerries, 5000, 5); // Generate berries
   StaticObjects(pokeballs, setPokeballs, 5000, 5); // Generate pokeballs
@@ -89,20 +91,24 @@ function World({ selectedPokemon }) {
     const playerPosition = `${playerX},${playerY}`;
     if (playerPosition in wildPokemon) {
       // Get the wild Pokemon object
-      const pokemon = wildPokemon[playerPosition];
-      setModalOpen(true);
+      // Add a slight delay before picking up pokeball
+      setTimeout(() => {
+        const pokemon = wildPokemon[playerPosition];
+        setEncounteredPokemon(pokemon);
+        setModalOpen(true);
 
-      // Remove the wild Pokemon from the list of wild Pokemon
-      setWildPokemon((prevPokemon) => {
-        const updatedPokemon = { ...prevPokemon };
-        delete updatedPokemon[playerPosition];
-        return updatedPokemon;
-      });
+        // Remove the wild Pokemon from the list of wild Pokemon
+        setWildPokemon((prevPokemon) => {
+          const updatedPokemon = { ...prevPokemon };
+          delete updatedPokemon[playerPosition];
+          return updatedPokemon;
+        });
 
-      // Add the captured Pokemon to myPokemonList
-      setMyPokemonList((prevList) => {
-        return { ...prevList, [pokemon.id]: pokemon };
-      });
+        // Add the captured Pokemon to myPokemonList
+        setMyPokemonList((prevList) => {
+          return { ...prevList, [pokemon.id]: pokemon };
+        });
+      }, 350); // Adjust the delay time as needed (in milliseconds)
     }
   };
   return (
@@ -144,7 +150,11 @@ function World({ selectedPokemon }) {
         pokeballCount={pokeballCount}
         berryCount={berryCount}
       />
-      <CatchPokemonModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
+      <CatchPokemonModal
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+        pokemon={encounteredPokemon}
+      />
     </>
   );
 }
@@ -173,22 +183,15 @@ function NavBar() {
   );
 }
 
-function CatchPokemonModal({ modalOpen, setModalOpen }) {
+function CatchPokemonModal({ modalOpen, setModalOpen, pokemon }) {
   return (
     <div className="modal" style={{ display: modalOpen ? "block" : "none" }}>
       <div className="modal-content">
-        <div className="modal-header">
-          <span className="close" onClick={() => setModalOpen(false)}>
-            &times;
-          </span>
-          <h2>Modal Header</h2>
-        </div>
+        <span className="close" onClick={() => setModalOpen(false)}>
+          Leave
+        </span>
         <div className="modal-body">
-          <p>Some text in the Modal Body</p>
-          <p>Some other text...</p>
-        </div>
-        <div className="modal-footer">
-          <h3>Modal Footer</h3>
+          {pokemon && <CatchPokemon pokemon={pokemon} />}
         </div>
       </div>
     </div>
