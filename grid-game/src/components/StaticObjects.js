@@ -10,7 +10,7 @@ const StaticObjects = (objects, setObjects, interval, maxCount) => {
         const y = Math.floor(Math.random() * WORLD_SIZE);
         const newPosition = `${x},${y}`;
 
-        // Ensure the new berry position is unique
+        // Berries and Pokeballs
         if (!(newPosition in objects)) {
           setObjects((prevObjects) => ({
             ...prevObjects,

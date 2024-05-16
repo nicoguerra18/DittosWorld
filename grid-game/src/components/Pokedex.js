@@ -5,11 +5,13 @@ import { berry } from "../images";
 
 function Pokedex({ myPokemonList, berryCount, pokeballCount }) {
   const [isOpen, setIsOpen] = useState(false);
+  console.log(myPokemonList);
 
   const togglePokedex = () => {
     setIsOpen((open) => !open);
   };
 
+  console.log("my list" + myPokemonList);
   return (
     <>
       <div className="box">
@@ -35,7 +37,6 @@ function Pokedex({ myPokemonList, berryCount, pokeballCount }) {
 
 function YourPokemon({
   myPokemonList,
-  onDeletePokemon,
   pokeballCount,
   berryCount,
   togglePokedex,
@@ -63,15 +64,9 @@ function YourPokemon({
           <span>Unique Pokémon: {Object.keys(myPokemonList).length}</span>
         </p>
       </div>
-
       <ul className="list">
-        {Object.values(myPokemonList).map(({ id, name, count, data }) => (
-          <AddedPokemon
-            key={id}
-            data={data}
-            count={count}
-            onDeletePokemon={() => onDeletePokemon(id)}
-          />
+        {Object.keys(myPokemonList).map((id) => (
+          <AddedPokemon key={id} data={myPokemonList[id]} />
         ))}
       </ul>
     </div>
@@ -84,18 +79,14 @@ function AddedPokemon({ data, count }) {
     data.name.charAt(0).toUpperCase() + data.name.slice(1);
 
   return (
-    <li key={data.id}>
+    <li className="list" key={data.id}>
       <img
         src={data.sprites["front_default"]}
         alt={data.name}
-        style={{ width: "60px", height: "60px" }}
+        style={{ width: "80px", height: "80px" }}
       />
-      <h3>{capitalizedPokemonName}</h3>
+      <h2>{capitalizedPokemonName}</h2>
       <div>
-        <p>
-          <span>#️⃣ {count}</span>
-        </p>
-
         <p>
           <span>
             Type:

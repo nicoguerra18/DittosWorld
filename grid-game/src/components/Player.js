@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { atom, useRecoilValue, useRecoilState } from "recoil";
 import { WORLD_SIZE, TILE_ASPECT_RATIO } from "../constants";
-function Player({ selectedPokemon, onMove1, onMove2 }) {
+function Player({ selectedPokemon, onMove1, onMove2, onMove3 }) {
   const playerState = atom({
     key: "playerState",
     default: { x: 4, y: 8, dir: "up", dead: false },
@@ -63,6 +63,7 @@ function Player({ selectedPokemon, onMove1, onMove2 }) {
       // Trigger the onMove function with the updated player position
       onMove1(player.x, player.y);
       onMove2(player.x, player.y);
+      onMove3(player.x, player.y);
     };
 
     window.addEventListener("keydown", handleKeyDown);
