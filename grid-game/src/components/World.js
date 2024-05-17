@@ -20,6 +20,8 @@ function World({ selectedPokemon }) {
   const [wildPokemon, setWildPokemon] = useState({});
   const [modalOpen, setModalOpen] = useState(false); // Open Catch Pokemon modal
   const [encounteredPokemon, setEncounteredPokemon] = useState();
+  const [isPokeballCollisionHandled, setPokeballCollisionHandled] =
+    useState(false); // collision handler
 
   StaticObjects(berries, setBerries, 5000, 5); // Generate berries
   StaticObjects(pokeballs, setPokeballs, 5000, 5); // Generate pokeballs
@@ -52,39 +54,47 @@ function World({ selectedPokemon }) {
     return () => clearInterval(intervalId);
   }, [wildPokemon]);
 
-  const checkBerryCollision = (playerX, playerY) => {
+  // debouncing
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  };
+
+  const checkBerryCollision = debounce((playerX, playerY) => {
     const playerPosition = `${playerX},${playerY}`;
     if (playerPosition in berries) {
       // Remove the berry from the list of berries
-      setTimeout(() => {
-        setBerries((prevBerries) => {
-          const updatedBerries = { ...prevBerries };
-          delete updatedBerries[playerPosition];
-          return updatedBerries;
-        });
-        // increase the player's score when they catch a berry
-        setBerryCount((prevCount) => prevCount + 1);
-      }, 350); // Adjust the delay time as needed (in milliseconds)
+      setBerries((prevBerries) => {
+        const updatedBerries = { ...prevBerries };
+        delete updatedBerries[playerPosition];
+        return updatedBerries;
+      });
+      // Increase the player's score when they catch a berry
+      setBerryCount((prevCount) => prevCount + 1);
     }
-  };
+  }, 310);
 
-  const checkPokeballCollision = (playerX, playerY) => {
+  const checkPokeballCollision = debounce((playerX, playerY) => {
     const playerPosition = `${playerX},${playerY}`;
     if (playerPosition in pokeballs) {
       // Remove the berry from the list of berries
 
       // Add a slight delay before picking up pokeball
-      setTimeout(() => {
-        setPokeballs((prevPokeballs) => {
-          const updatedPokeballs = { ...prevPokeballs };
-          delete updatedPokeballs[playerPosition];
-          return updatedPokeballs;
-        });
-        // increase the player's score when they catch a berry
-        setPokeballCount((prevCount) => prevCount + 1);
-      }, 350); // Adjust the delay time as needed (in milliseconds)
+      setPokeballs((prevPokeballs) => {
+        const updatedPokeballs = { ...prevPokeballs };
+        delete updatedPokeballs[playerPosition];
+        return updatedPokeballs;
+      });
+      // increase the player's score when they catch a berry
+      console.log("collision");
+      setPokeballCount((prevCount) => prevCount + 1);
     }
-  };
+  }, 310);
 
   // Catch Pokemon (for now just catch it by moving on it)
   const checkPokemonCollision = (playerX, playerY) => {

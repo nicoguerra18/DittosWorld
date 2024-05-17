@@ -1,9 +1,5 @@
 import boatUp from "./images/boat_NW.png";
 import boatDown from "./images/boat_SE.png";
-import frogNE from "./images/frog_NE.png";
-import frogNW from "./images/frog_NW.png";
-import frogSE from "./images/frog_SE.png";
-import frogSW from "./images/frog_SW.png";
 import grass from "./images/grass.png";
 import road from "./images/road.png";
 import roadGrassAbove from "./images/road_grass_above.png";
@@ -26,10 +22,6 @@ export {
   boatUp,
   boatDown,
   frogDead,
-  frogNE,
-  frogNW,
-  frogSE,
-  frogSW,
   grass,
   road,
   roadGrassAbove,
