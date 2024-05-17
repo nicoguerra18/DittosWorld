@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { dpokeball } from "../images";
 
-function CatchPokemon({ pokemon, player }) {
+function CatchPokemon({ pokemon, player, pokeballCount, setPokeballCount }) {
   const [pokeballThrown, setPokeballThrown] = useState(false);
   const [pokemonCaught, setPokemonCaught] = useState(false);
   const [pokeballPosition, setPokeballPosition] = useState({
@@ -17,7 +17,7 @@ function CatchPokemon({ pokemon, player }) {
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, []);
+  }, [pokeballCount]);
 
   useEffect(() => {
     if (pokeballThrown) {
@@ -28,7 +28,12 @@ function CatchPokemon({ pokemon, player }) {
   const handleKeyPress = (event) => {
     if (event.code === "Space") {
       // Throw Pokeball when spacebar is pressed
-      setPokeballThrown(true);
+      if (pokeballCount > 0 && pokeballThrown == false) {
+        setPokeballThrown(true);
+        setPokeballCount((prevCount) => prevCount - 1); // Decrease pokeball count
+      } else {
+        console.log("You have no more pokeballs");
+      }
     }
   };
 

@@ -20,8 +20,6 @@ function World({ selectedPokemon }) {
   const [wildPokemon, setWildPokemon] = useState({});
   const [modalOpen, setModalOpen] = useState(false); // Open Catch Pokemon modal
   const [encounteredPokemon, setEncounteredPokemon] = useState();
-  const [isPokeballCollisionHandled, setPokeballCollisionHandled] =
-    useState(false); // collision handler
 
   StaticObjects(berries, setBerries, 5000, 5); // Generate berries
   StaticObjects(pokeballs, setPokeballs, 5000, 5); // Generate pokeballs
@@ -165,6 +163,8 @@ function World({ selectedPokemon }) {
         setModalOpen={setModalOpen}
         pokemon={encounteredPokemon}
         player={selectedPokemon}
+        pokeballCount={pokeballCount}
+        setPokeballCount={setPokeballCount}
       />
     </>
   );
@@ -194,7 +194,14 @@ function NavBar() {
   );
 }
 
-function CatchPokemonModal({ modalOpen, setModalOpen, pokemon, player }) {
+function CatchPokemonModal({
+  modalOpen,
+  setModalOpen,
+  pokemon,
+  player,
+  pokeballCount,
+  setPokeballCount,
+}) {
   return (
     <div className="modal" style={{ display: modalOpen ? "block" : "none" }}>
       <div className="modal-content">
@@ -202,7 +209,14 @@ function CatchPokemonModal({ modalOpen, setModalOpen, pokemon, player }) {
           Leave
         </span>
         <div className="modal-body">
-          {pokemon && <CatchPokemon pokemon={pokemon} player={player} />}
+          {pokemon && (
+            <CatchPokemon
+              pokemon={pokemon}
+              player={player}
+              pokeballCount={pokeballCount}
+              setPokeballCount={setPokeballCount}
+            />
+          )}
         </div>
       </div>
     </div>
