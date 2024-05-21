@@ -15,6 +15,13 @@ function CatchPokemon({
     left: 0,
     top: 0,
   });
+  const [showCaughtMessage, setShowCaughtMessage] = useState(false); // New state for caught message
+
+  useEffect(() => {
+    // Reset the caught message when caughtFlag changes
+    setShowCaughtMessage(false);
+  }, [caughtFlag]);
+
 
   useEffect(() => {
     const handleKeyPress = (event) => {
@@ -34,17 +41,18 @@ function CatchPokemon({
             setMyPokemonList((prevList) => {
               return { ...prevList, [pokemon.id]: pokemon };
             });
-
-            // Decrease Count and set Pokeball thrown to true
-            setPokeballCount((prevCount) => prevCount - 1); // Decrease pokeball count
-            setPokeballThrown(true);
+            setCaughtFlag(true);
           } else {
             // did not catch pokemon
             console.log("failed to catch pokemon");
           }
+           // Decrease Count and set Pokeball thrown to true
+           setPokeballCount((prevCount) => prevCount - 1); // Decrease pokeball count
+           setPokeballThrown(true);
         } else {
           console.log("You have no more pokeballs / you cant throw");
         }
+        
       }
     };
     // Add event listener for spacebar press
@@ -62,6 +70,7 @@ function CatchPokemon({
       // Set a new timeout to reset pokeballThrown
       setTimeout(() => {
         setPokeballThrown(false);
+        setShowCaughtMessage(true); // Show caught message after animation ends
       }, 2400); // Reset pokeballThrown after 1 second
     } else {
       console.log("thrown but pokeballThrown is still true");
@@ -149,7 +158,7 @@ function CatchPokemon({
           }}
         />
       )}
-      {caughtFlag && (
+      {showCaughtMessage && ( // Only show the message when showCaughtMessage is true
         <div
           style={{
             position: "fixed",
@@ -162,7 +171,7 @@ function CatchPokemon({
             boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)",
           }}
         >
-          {`You caught ${pokemon.name}!`}
+           {caughtFlag ? `You caught ${pokemon.name}!` : `You failed to catch ${pokemon.name}.`}
         </div>
       )}
     </>
