@@ -111,11 +111,6 @@ function World({ selectedPokemon }) {
           delete updatedPokemon[playerPosition];
           return updatedPokemon;
         });
-
-        // Add the captured Pokemon to myPokemonList
-        setMyPokemonList((prevList) => {
-          return { ...prevList, [pokemon.id]: pokemon };
-        });
       }, 350); // Adjust the delay time as needed (in milliseconds)
     }
   };
@@ -165,6 +160,7 @@ function World({ selectedPokemon }) {
         player={selectedPokemon}
         pokeballCount={pokeballCount}
         setPokeballCount={setPokeballCount}
+        setMyPokemonList={setMyPokemonList}
       />
     </>
   );
@@ -201,7 +197,16 @@ function CatchPokemonModal({
   player,
   pokeballCount,
   setPokeballCount,
+  setMyPokemonList,
 }) {
+  const [caughtFlag, setCaughtFlag] = useState(false);
+
+  useEffect(() => {
+    if (modalOpen) {
+      // Reset caughtFlag to false when the modal opens
+      setCaughtFlag(false);
+    }
+  }, [modalOpen]); // Run this effect whenever modalOpen changes
   return (
     <div className="modal" style={{ display: modalOpen ? "block" : "none" }}>
       <div className="modal-content">
@@ -215,6 +220,9 @@ function CatchPokemonModal({
               player={player}
               pokeballCount={pokeballCount}
               setPokeballCount={setPokeballCount}
+              setMyPokemonList={setMyPokemonList}
+              setCaughtFlag={setCaughtFlag}
+              caughtFlag={caughtFlag}
             />
           )}
         </div>

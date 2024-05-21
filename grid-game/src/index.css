@@ -589,3 +589,14 @@ h2 {
       transform: translate3d(0, 200px, 0); 
   } 
 } 
+
+
+
+@keyframes pokemon-disappear {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0
+  }
+}

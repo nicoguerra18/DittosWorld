@@ -1,41 +1,72 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { dpokeball } from "../images";
 
-function CatchPokemon({ pokemon, player, pokeballCount, setPokeballCount }) {
+function CatchPokemon({
+  pokemon,
+  player,
+  pokeballCount,
+  setPokeballCount,
+  setMyPokemonList,
+  setCaughtFlag,
+  caughtFlag,
+}) {
   const [pokeballThrown, setPokeballThrown] = useState(false);
-  const [pokemonCaught, setPokemonCaught] = useState(false);
   const [pokeballPosition, setPokeballPosition] = useState({
     left: 0,
     top: 0,
   });
 
   useEffect(() => {
+    const handleKeyPress = (event) => {
+      event.preventDefault();
+      if (event.code === "Space") {
+        // Throw Pokeball when spacebar is pressed
+        if (
+          pokeballCount > 0 &&
+          pokeballThrown === false &&
+          caughtFlag === false
+        ) {
+          // Logic to catch a pokemon and add to myPokemonList
+          let x = Math.random();
+          if (x > 0.5) {
+            // Remove from WildPokemon List
+            // Add the captured Pokemon to myPokemonList
+            setMyPokemonList((prevList) => {
+              return { ...prevList, [pokemon.id]: pokemon };
+            });
+
+            // Decrease Count and set Pokeball thrown to true
+            setPokeballCount((prevCount) => prevCount - 1); // Decrease pokeball count
+            setPokeballThrown(true);
+          } else {
+            // did not catch pokemon
+            console.log("failed to catch pokemon");
+          }
+        } else {
+          console.log("You have no more pokeballs / you cant throw");
+        }
+      }
+    };
     // Add event listener for spacebar press
     window.addEventListener("keydown", handleKeyPress);
-
     // Remove event listener when component unmounts
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, [pokeballCount]);
+  }, [pokeballCount, pokeballThrown, caughtFlag]);
 
   useEffect(() => {
     if (pokeballThrown) {
       animate();
+
+      // Set a new timeout to reset pokeballThrown
+      setTimeout(() => {
+        setPokeballThrown(false);
+      }, 2400); // Reset pokeballThrown after 1 second
+    } else {
+      console.log("thrown but pokeballThrown is still true");
     }
   }, [pokeballThrown]);
-
-  const handleKeyPress = (event) => {
-    if (event.code === "Space") {
-      // Throw Pokeball when spacebar is pressed
-      if (pokeballCount > 0 && pokeballThrown == false) {
-        setPokeballThrown(true);
-        setPokeballCount((prevCount) => prevCount - 1); // Decrease pokeball count
-      } else {
-        console.log("You have no more pokeballs");
-      }
-    }
-  };
 
   const animate = () => {
     const startPosition = {
@@ -47,7 +78,7 @@ function CatchPokemon({ pokemon, player, pokeballCount, setPokeballCount }) {
       top: window.innerHeight * 0.2,
     }; // Position of the center of the viewport
 
-    const speed = 4; // Adjust speed as needed
+    const speed = 7; // Adjust speed as needed
     let currentLeft = startPosition.left;
     let currentTop = startPosition.top;
 
@@ -63,16 +94,9 @@ function CatchPokemon({ pokemon, player, pokeballCount, setPokeballCount }) {
 
       if (currentLeft < endPosition.left || currentTop > endPosition.top) {
         requestAnimationFrame(animate);
-      } else {
-        setPokemonCaught(true);
       }
     };
-
     animate();
-
-    setTimeout(() => {
-      setPokeballThrown(false);
-    }, 2400); // Reset pokeballThrown after 5 seconds
   };
 
   return (
@@ -124,6 +148,22 @@ function CatchPokemon({ pokemon, player, pokeballCount, setPokeballCount }) {
             height: "70px",
           }}
         />
+      )}
+      {caughtFlag && (
+        <div
+          style={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            background: "rgba(255, 255, 255, 0.8)",
+            padding: "20px",
+            borderRadius: "10px",
+            boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)",
+          }}
+        >
+          {`You caught ${pokemon.name}!`}
+        </div>
       )}
     </>
   );
