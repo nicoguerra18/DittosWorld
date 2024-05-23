@@ -6,9 +6,13 @@ import { berry } from "../images";
 function Pokedex({
   myPokemonList,
   berryCount,
+  setBerryCount,
   pokeballCount,
   setDetailsModalOpen,
   setSelectedPokemon,
+  setHpEnhance,
+  selectedPokemon,
+  hpEnhance,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [pokemonInfo, setPokemonInfo] = useState(null);
@@ -37,6 +41,10 @@ function Pokedex({
                 pokemonInfo={pokemonInfo}
                 setPokemonInfo={setPokemonInfo}
                 setSelectedPokemon={setSelectedPokemon}
+                setHpEnhance={setHpEnhance}
+                selectedPokemon={selectedPokemon}
+                hpEnhance={hpEnhance}
+                setBerryCount={setBerryCount}
               />
             ) : (
               <Summary
@@ -57,11 +65,26 @@ function YourPokemon({
   myPokemonList,
   pokeballCount,
   berryCount,
+  setBerryCount,
   togglePokedex,
   setDetailsModalOpen,
   setPokemonInfo,
   setSelectedPokemon,
+  setHpEnhance,
+  selectedPokemon,
+  hpEnhance,
 }) {
+  // Find the HP stat
+  const hpStat = selectedPokemon.stats.find((stat) => stat.stat.name === "hp");
+  const currentHp = hpStat.base_stat + hpEnhance;
+
+  const handlePowerUp = () => {
+    if (berryCount > 0) {
+      setHpEnhance((prev) => prev + 3);
+      setBerryCount((prev) => prev - 1);
+    }
+  };
+
   return (
     <div className="summary">
       <div className="title">
@@ -86,6 +109,42 @@ function YourPokemon({
         </p>
       </div>
       <ul className="list">
+        <li
+          className="list"
+          style={{
+            border: "3px solid gold",
+          }}
+        >
+          <h2>
+            {selectedPokemon.name.charAt(0).toUpperCase() +
+              selectedPokemon.name.slice(1)}
+          </h2>
+          <img
+            src={selectedPokemon.sprites["front_default"]}
+            alt={selectedPokemon.name}
+            style={{ width: "90px", height: "90px" }}
+          />
+          <h2>
+            {hpStat.base_stat} HP +
+            <span style={{ color: "gold", fontSize: "1.7rem" }}>
+              {" "}
+              {hpEnhance}
+            </span>
+          </h2>
+
+          <p>
+            <button
+              className="btn-add"
+              style={{ backgroundColor: "#ffd700", color: "#000" }}
+              onClick={handlePowerUp}
+            >
+              Power Up+
+            </button>
+          </p>
+        </li>
+      </ul>
+
+      <ul className="list">
         {Object.keys(myPokemonList).map((id) => (
           <AddedPokemon
             key={id}
@@ -93,6 +152,7 @@ function YourPokemon({
             setDetailsModalOpen={setDetailsModalOpen}
             setPokemonInfo={setPokemonInfo}
             setSelectedPokemon={setSelectedPokemon}
+            setHpEnhance={setHpEnhance}
           />
         ))}
       </ul>
@@ -100,30 +160,44 @@ function YourPokemon({
   );
 }
 
-function AddedPokemon({ data, setPokemonInfo, setSelectedPokemon }) {
+function AddedPokemon({
+  data,
+  setPokemonInfo,
+  setSelectedPokemon,
+  setHpEnhance,
+}) {
   // Capitalize the first letter of the Pokemon name
   const capitalizedPokemonName =
     data.name.charAt(0).toUpperCase() + data.name.slice(1);
 
   const handlePokemonChange = (data) => {
     setSelectedPokemon(data);
-
-    // else I want to diplay a message that tells them to select a pokemon
+    setHpEnhance(0);
   };
+
+  // Find the HP stat
+  const hpStat = data.stats.find((stat) => stat.stat.name === "hp");
 
   return (
     <li className="list" key={data.id}>
       <img
         src={data.sprites["front_default"]}
         alt={data.name}
-        style={{ width: "80px", height: "80px" }}
+        style={{ width: "90px", height: "90px" }}
       />
+
       <h2>{capitalizedPokemonName}</h2>
+      {hpStat && <h2>{hpStat.base_stat} HP</h2>}
+
       <p>
         <button onClick={() => setPokemonInfo(data)} className="btn-add">
           View Details
         </button>
-        <button onClick={() => handlePokemonChange(data)} className="btn-add">
+        <button
+          onClick={() => handlePokemonChange(data)}
+          className="btn-add"
+          style={{ backgroundColor: "#3ed65d" }}
+        >
           Transform
         </button>
       </p>

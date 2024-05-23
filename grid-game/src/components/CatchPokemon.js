@@ -16,13 +16,11 @@ function CatchPokemon({
     top: 0,
   });
   const [showCaughtMessage, setShowCaughtMessage] = useState(false); // New state for caught message
-  
 
   useEffect(() => {
     // Reset the caught message when caughtFlag changes
     setShowCaughtMessage(false);
   }, [caughtFlag]);
-
 
   useEffect(() => {
     const handleKeyPress = (event) => {
@@ -47,13 +45,12 @@ function CatchPokemon({
             // did not catch pokemon
             console.log("failed to catch pokemon");
           }
-           // Decrease Count and set Pokeball thrown to true
-           setPokeballCount((prevCount) => prevCount - 1); // Decrease pokeball count
-           setPokeballThrown(true);
+          // Decrease Count and set Pokeball thrown to true
+          setPokeballCount((prevCount) => prevCount - 1); // Decrease pokeball count
+          setPokeballThrown(true);
         } else {
           console.log("You have no more pokeballs / you cant throw");
         }
-        
       }
     };
     // Add event listener for spacebar press
@@ -172,7 +169,9 @@ function CatchPokemon({
             boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)",
           }}
         >
-           {caughtFlag ? `You caught ${pokemon.name}!` : `You failed to catch ${pokemon.name}.`}
+          {caughtFlag
+            ? `You caught ${pokemon.name}!`
+            : `You failed to catch ${pokemon.name}.`}
         </div>
       )}
     </>

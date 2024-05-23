@@ -230,7 +230,7 @@ img {
   padding: 0 3.2rem;
   background-color: var(--color-background-900);
   display: flex;
-  justify-content: center;
+  justify-content: left;
   z-index: 2000;
   position: fixed; /* Add this line */
   top: 0; /* Add this line */
@@ -453,6 +453,14 @@ h2 {
   display: relative;
 }
 
+.main-title {
+  font-size: 2.1em;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  display: relative;
+}
+
 .pokedexSum {
   font-size: 3vw;
   font-weight: 600;
@@ -668,6 +676,7 @@ h2 {
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s;
+  white-space: nowrap; /* Prevent text from wrapping */
 }
 
 .btn-close {

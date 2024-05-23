@@ -103,7 +103,7 @@ function Player({ selectedPokemon, onMove1, onMove2, onMove3 }) {
   return (
     <>
       <img
-        alt="player"
+        alt="no sprite for this dir"
         className={`player ${player.dead && "dead"}`}
         style={{
           position: "absolute",

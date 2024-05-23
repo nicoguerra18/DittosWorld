@@ -20,6 +20,7 @@ function World({ setSelectedPokemon, selectedPokemon, playerName }) {
   const [wildPokemon, setWildPokemon] = useState({});
   const [modalOpen, setModalOpen] = useState(false); // Open Catch Pokemon modal
   const [encounteredPokemon, setEncounteredPokemon] = useState();
+  const [hpEnhance, setHpEnhance] = useState(0);
 
   StaticObjects(berries, setBerries, 5000, 5); // Generate berries
   StaticObjects(pokeballs, setPokeballs, 5000, 5); // Generate pokeballs
@@ -116,7 +117,11 @@ function World({ setSelectedPokemon, selectedPokemon, playerName }) {
   };
   return (
     <>
-      <NavBar playerName={playerName} selectedPokemon={selectedPokemon} />
+      <NavBar
+        playerName={playerName}
+        selectedPokemon={selectedPokemon}
+        hpEnhance={hpEnhance}
+      />
       <div className="world">
         <Landscape />
         <Player
@@ -149,6 +154,10 @@ function World({ setSelectedPokemon, selectedPokemon, playerName }) {
         pokeballCount={pokeballCount}
         berryCount={berryCount}
         setSelectedPokemon={setSelectedPokemon}
+        setHpEnhance={setHpEnhance}
+        selectedPokemon={selectedPokemon}
+        hpEnhance={hpEnhance}
+        setBerryCount={setBerryCount}
       />
       <CatchPokemonModal
         modalOpen={modalOpen}
@@ -163,27 +172,35 @@ function World({ setSelectedPokemon, selectedPokemon, playerName }) {
   );
 }
 
-function Logo({ playerName, selectedPokemon }) {
+function Logo({ playerName, selectedPokemon, hpEnhance }) {
+  // Ensure selectedPokemon is loaded before accessing its properties
+  if (!selectedPokemon || !selectedPokemon.stats) {
+    return null; // or return a loading indicator
+  }
+
+  // Find the HP stat
+  const hpStat = selectedPokemon.stats.find((stat) => stat.stat.name === "hp");
+  const currentHp = hpStat.base_stat + hpEnhance;
+
   return (
     <div className="logo">
-      <img
-        src={dpokeball}
-        style={{ width: "35px", height: "35px", marginRight: "10px" }}
-      />
-      <div className="title">Pokemon Game</div>
-      <img
-        src={dpokeball}
-        style={{ width: "35px", height: "35px", marginRight: "10px" }}
-      />
+      <div className="title">
+        <img
+          src={selectedPokemon.sprites["front_default"]}
+          alt={selectedPokemon.name}
+          style={{ width: "100px", height: "100px", marginBottom: "-10px" }}
+        />
+      </div>
+      <h2 className="main-title">{currentHp} HP</h2>
     </div>
   );
 }
 
-function NavBar({ playerName, selectedPokemon }) {
+function NavBar({ playerName, selectedPokemon, hpEnhance }) {
   return (
     <nav className="nav-bar">
-      <div className="logo-container">
-        <Logo />
+      <div>
+        <Logo selectedPokemon={selectedPokemon} hpEnhance={hpEnhance} />
       </div>
     </nav>
   );
