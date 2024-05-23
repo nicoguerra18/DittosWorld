@@ -5,6 +5,7 @@ import axios from "axios";
 
 function Game() {
   const [selectedPokemon, setSelectedPokemon] = useState(null);
+  const [playerName, setPlayerName] = useState("");
   const [entered, setEntered] = useState(false);
   const [ready, setReady] = useState(false);
 
@@ -17,12 +18,14 @@ function Game() {
       {entered ? (
         ready ? (
           <div>
-            <World selectedPokemon={selectedPokemon} />
+            <World selectedPokemon={selectedPokemon} playerName={playerName}/>
           </div>
         ) : (
           <PokemonPicker
             setSelectedPokemon={setSelectedPokemon}
             setReady={setReady}
+            playerName={playerName}
+            setPlayerName={setPlayerName}
           />
         )
       ) : (
@@ -45,7 +48,7 @@ function IntroPage({ handleEnter }) {
   );
 }
 
-function PokemonPicker({ setSelectedPokemon, setReady }) {
+function PokemonPicker({ setSelectedPokemon, setReady, playerName, setPlayerName }) {
   const [pokemon, setPokemon] = useState("");
   const [pokemonData, setPokemonData] = useState([]);
   const [error, setError] = useState(null);
@@ -65,6 +68,10 @@ function PokemonPicker({ setSelectedPokemon, setReady }) {
     setPokemon(e.target.value.toLowerCase());
   };
 
+  const handleNameChange = (e) => {
+    setPlayerName(e.target.value);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -73,16 +80,20 @@ function PokemonPicker({ setSelectedPokemon, setReady }) {
       setError("Please enter a Pokemon name.");
       return;
     }
+    if (!playerName.trim()) {
+      setError("please enter your name");
+      return;
+    }
     setError(null); // Clear the error state
     getPokemon();
   };
 
   const handleReady = () => {
-    if (pokemonData.length > 0) {
+    if (pokemonData.length > 0 && playerName.length > 0) {
       setSelectedPokemon(pokemonData[0]);
       setReady(true);
     } else {
-      setError("Please enter a Pokemon name.");
+      setError("Please enter name and/or choose pokemon");
     }
     // else I want to diplay a message that tells them to select a pokemon
   };
@@ -91,8 +102,18 @@ function PokemonPicker({ setSelectedPokemon, setReady }) {
     <div className="intro-container">
       <div className="intro-content">
         <h2>Choose Your Pokemon!</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} >
           <label>
+            <div>
+            <input 
+              className="search" 
+              type="text" onChange={handleNameChange} 
+              placeholder="Choose you Name" 
+              value={playerName}
+              />
+            </div>
+            <br/>
+            <div>
             <input
               className="search"
               type="text"
@@ -100,6 +121,9 @@ function PokemonPicker({ setSelectedPokemon, setReady }) {
               placeholder="Search Pokémon"
               value={pokemon}
             />
+            </div>
+           
+            
             <button onClick={handleSubmit} className="mybutton">
               Search
             </button>

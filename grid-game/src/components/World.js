@@ -5,13 +5,13 @@ import Berry from "./Berry";
 import StaticObjects from "./StaticObjects";
 import Pokeball from "./Pokeball";
 import Pokedex from "./Pokedex";
-import { pokeball } from "../images";
+import { dpokeball } from "../images";
 import WildPokemon from "./WildPokemon";
 import { WORLD_SIZE } from "../constants";
 import axios from "axios"; // Don't forget to import axios
 import CatchPokemon from "./CatchPokemon";
 
-function World({ selectedPokemon }) {
+function World({ selectedPokemon, playerName }) {
   const [berries, setBerries] = useState({});
   const [berryCount, setBerryCount] = useState(0);
   const [pokeballs, setPokeballs] = useState({});
@@ -116,11 +116,7 @@ function World({ selectedPokemon }) {
   };
   return (
     <>
-      <NavBar
-        myPokemonList={myPokemonList}
-        pokeballCount={pokeballCount}
-        berryCount={berryCount}
-      />
+      <NavBar playerName={playerName} selectedPokemon={selectedPokemon} />
       <div className="world">
         <Landscape />
         <Player
@@ -166,26 +162,28 @@ function World({ selectedPokemon }) {
   );
 }
 
-function Logo() {
+function Logo({ playerName, selectedPokemon }) {
   return (
     <div className="logo">
       <img
-        src={pokeball}
+        src={dpokeball}
         style={{ width: "35px", height: "35px", marginRight: "10px" }}
       />
       <div className="title">Pokemon Game</div>
       <img
-        src={pokeball}
+        src={dpokeball}
         style={{ width: "35px", height: "35px", marginRight: "10px" }}
       />
     </div>
   );
 }
 
-function NavBar() {
+function NavBar({ playerName, selectedPokemon }) {
   return (
     <nav className="nav-bar">
-      <Logo />
+      <div className="logo-container">
+        <Logo />
+      </div>
     </nav>
   );
 }

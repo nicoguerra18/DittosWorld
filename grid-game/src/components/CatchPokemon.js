@@ -16,6 +16,7 @@ function CatchPokemon({
     top: 0,
   });
   const [showCaughtMessage, setShowCaughtMessage] = useState(false); // New state for caught message
+  
 
   useEffect(() => {
     // Reset the caught message when caughtFlag changes
@@ -87,7 +88,7 @@ function CatchPokemon({
       top: window.innerHeight * 0.2,
     }; // Position of the center of the viewport
 
-    const speed = 7; // Adjust speed as needed
+    const speed = 4; // Adjust speed as needed
     let currentLeft = startPosition.left;
     let currentTop = startPosition.top;
 

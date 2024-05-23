@@ -3,32 +3,48 @@ import { useState } from "react";
 import { dpokeball } from "../images";
 import { berry } from "../images";
 
-function Pokedex({ myPokemonList, berryCount, pokeballCount }) {
+function Pokedex({
+  myPokemonList,
+  berryCount,
+  pokeballCount,
+  setDetailsModalOpen,
+}) {
   const [isOpen, setIsOpen] = useState(false);
-  console.log(myPokemonList);
+  const [pokemonInfo, setPokemonInfo] = useState(null);
 
   const togglePokedex = () => {
     setIsOpen((open) => !open);
   };
 
-  console.log("my list" + myPokemonList);
   return (
     <>
       <div className="box">
-        {isOpen ? (
-          <YourPokemon
-            myPokemonList={myPokemonList}
-            pokeballCount={pokeballCount}
-            berryCount={berryCount}
-            togglePokedex={togglePokedex}
+        {pokemonInfo ? (
+          <PokemonInfo
+            pokemonInfo={pokemonInfo}
+            setPokemonInfo={setPokemonInfo}
           />
         ) : (
-          <Summary
-            pokeballCount={pokeballCount}
-            berryCount={berryCount}
-            myPokemonList={myPokemonList}
-            togglePokedex={togglePokedex}
-          />
+          <>
+            {isOpen ? (
+              <YourPokemon
+                myPokemonList={myPokemonList}
+                pokeballCount={pokeballCount}
+                berryCount={berryCount}
+                togglePokedex={togglePokedex}
+                setDetailsModalOpen={setDetailsModalOpen}
+                pokemonInfo={pokemonInfo}
+                setPokemonInfo={setPokemonInfo}
+              />
+            ) : (
+              <Summary
+                pokeballCount={pokeballCount}
+                berryCount={berryCount}
+                myPokemonList={myPokemonList}
+                togglePokedex={togglePokedex}
+              />
+            )}
+          </>
         )}
       </div>
     </>
@@ -40,6 +56,8 @@ function YourPokemon({
   pokeballCount,
   berryCount,
   togglePokedex,
+  setDetailsModalOpen,
+  setPokemonInfo,
 }) {
   return (
     <div className="summary">
@@ -66,14 +84,19 @@ function YourPokemon({
       </div>
       <ul className="list">
         {Object.keys(myPokemonList).map((id) => (
-          <AddedPokemon key={id} data={myPokemonList[id]} />
+          <AddedPokemon
+            key={id}
+            data={myPokemonList[id]}
+            setDetailsModalOpen={setDetailsModalOpen}
+            setPokemonInfo={setPokemonInfo}
+          />
         ))}
       </ul>
     </div>
   );
 }
 
-function AddedPokemon({ data, count }) {
+function AddedPokemon({ data, setPokemonInfo }) {
   // Capitalize the first letter of the Pokemon name
   const capitalizedPokemonName =
     data.name.charAt(0).toUpperCase() + data.name.slice(1);
@@ -86,16 +109,11 @@ function AddedPokemon({ data, count }) {
         style={{ width: "80px", height: "80px" }}
       />
       <h2>{capitalizedPokemonName}</h2>
-      <div>
-        <p>
-          <span>
-            Type:
-            {data.types.map((type, index) => (
-              <span key={index}> {type.type.name}</span>
-            ))}
-          </span>
-        </p>
-      </div>
+      <p>
+        <button onClick={() => setPokemonInfo(data)} className="btn-add">
+          View Details
+        </button>
+      </p>
     </li>
   );
 }
@@ -137,5 +155,70 @@ function Summary({ pokeballCount, berryCount, myPokemonList, togglePokedex }) {
     </div>
   );
 }
+
+function PokemonInfo({ pokemonInfo, setPokemonInfo }) {
+  return (
+    <div className="summary">
+      <div className="title">
+        <h2>{pokemonInfo.name}</h2>
+        <button className="btn-close" onClick={() => setPokemonInfo(false)}>
+          Close
+        </button>
+      </div>
+
+      <div>
+        <img
+          src={pokemonInfo.sprites.front_default}
+          alt="front sprite"
+          style={{ width: "200px", height: "200px" }}
+        />
+        <img
+          src={pokemonInfo.sprites.back_default}
+          alt="rear sprite"
+          style={{ width: "200px", height: "200px" }}
+        />
+      </div>
+      <div>
+        <h2 style={{ color: "#fff" }}> STATS </h2>
+      </div>
+      <br />
+      <div>
+        <span style={{ color: "#c7bebe" }}>
+          {pokemonInfo.stats.map((stat, index) => (
+            <li key={index}>
+              {stat.stat.name.charAt(0).toUpperCase() + stat.stat.name.slice(1)}
+              : {stat.base_stat}
+            </li>
+          ))}
+        </span>
+        <span style={{ color: "#c7bebe" }}>
+          {pokemonInfo.types.map((type, index) => (
+            <li key={index}> Type: {type.type.name}</li>
+          ))}
+        </span>{" "}
+      </div>
+      <br />
+      {/* <div>
+        <span style={{ color: "#c7bebe" }}>
+          {pokemonInfo.stats.map((stat, index) => (
+            <li key={index}>
+              {stat.stat.name.charAt(0).toUpperCase() + stat.stat.name.slice(1)}
+              : {stat.base_stat}
+            </li>
+          ))}
+        </span>
+        <span style={{ color: "#c7bebe" }}>
+          {pokemonInfo.types.map((type, index) => (
+            <li key={index}> Type: {type.type.name}</li>
+          ))}
+        </span>{" "}
+      </div> */}
+    </div>
+  );
+}
+
+// press view info -> sets pokemonInfo to that pokemon and
+// if pokemonInfo is set then I display that in the box
+// when i close then i set it back to null
 
 export default Pokedex;
