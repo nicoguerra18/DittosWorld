@@ -18,7 +18,11 @@ function Game() {
       {entered ? (
         ready ? (
           <div>
-            <World selectedPokemon={selectedPokemon} playerName={playerName}/>
+            <World
+              setSelectedPokemon={setSelectedPokemon}
+              selectedPokemon={selectedPokemon}
+              playerName={playerName}
+            />
           </div>
         ) : (
           <PokemonPicker
@@ -48,7 +52,12 @@ function IntroPage({ handleEnter }) {
   );
 }
 
-function PokemonPicker({ setSelectedPokemon, setReady, playerName, setPlayerName }) {
+function PokemonPicker({
+  setSelectedPokemon,
+  setReady,
+  playerName,
+  setPlayerName,
+}) {
   const [pokemon, setPokemon] = useState("");
   const [pokemonData, setPokemonData] = useState([]);
   const [error, setError] = useState(null);
@@ -102,28 +111,28 @@ function PokemonPicker({ setSelectedPokemon, setReady, playerName, setPlayerName
     <div className="intro-container">
       <div className="intro-content">
         <h2>Choose Your Pokemon!</h2>
-        <form onSubmit={handleSubmit} >
+        <form onSubmit={handleSubmit}>
           <label>
             <div>
-            <input 
-              className="search" 
-              type="text" onChange={handleNameChange} 
-              placeholder="Choose you Name" 
-              value={playerName}
+              <input
+                className="search"
+                type="text"
+                onChange={handleNameChange}
+                placeholder="Choose you Name"
+                value={playerName}
               />
             </div>
-            <br/>
+            <br />
             <div>
-            <input
-              className="search"
-              type="text"
-              onChange={handleChange}
-              placeholder="Search Pokémon"
-              value={pokemon}
-            />
+              <input
+                className="search"
+                type="text"
+                onChange={handleChange}
+                placeholder="Search Pokémon"
+                value={pokemon}
+              />
             </div>
-           
-            
+
             <button onClick={handleSubmit} className="mybutton">
               Search
             </button>

@@ -11,7 +11,7 @@ import { WORLD_SIZE } from "../constants";
 import axios from "axios"; // Don't forget to import axios
 import CatchPokemon from "./CatchPokemon";
 
-function World({ selectedPokemon, playerName }) {
+function World({ setSelectedPokemon, selectedPokemon, playerName }) {
   const [berries, setBerries] = useState({});
   const [berryCount, setBerryCount] = useState(0);
   const [pokeballs, setPokeballs] = useState({});
@@ -148,6 +148,7 @@ function World({ selectedPokemon, playerName }) {
         myPokemonList={myPokemonList}
         pokeballCount={pokeballCount}
         berryCount={berryCount}
+        setSelectedPokemon={setSelectedPokemon}
       />
       <CatchPokemonModal
         modalOpen={modalOpen}

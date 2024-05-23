@@ -8,6 +8,7 @@ function Pokedex({
   berryCount,
   pokeballCount,
   setDetailsModalOpen,
+  setSelectedPokemon,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [pokemonInfo, setPokemonInfo] = useState(null);
@@ -35,6 +36,7 @@ function Pokedex({
                 setDetailsModalOpen={setDetailsModalOpen}
                 pokemonInfo={pokemonInfo}
                 setPokemonInfo={setPokemonInfo}
+                setSelectedPokemon={setSelectedPokemon}
               />
             ) : (
               <Summary
@@ -58,6 +60,7 @@ function YourPokemon({
   togglePokedex,
   setDetailsModalOpen,
   setPokemonInfo,
+  setSelectedPokemon,
 }) {
   return (
     <div className="summary">
@@ -89,6 +92,7 @@ function YourPokemon({
             data={myPokemonList[id]}
             setDetailsModalOpen={setDetailsModalOpen}
             setPokemonInfo={setPokemonInfo}
+            setSelectedPokemon={setSelectedPokemon}
           />
         ))}
       </ul>
@@ -96,10 +100,16 @@ function YourPokemon({
   );
 }
 
-function AddedPokemon({ data, setPokemonInfo }) {
+function AddedPokemon({ data, setPokemonInfo, setSelectedPokemon }) {
   // Capitalize the first letter of the Pokemon name
   const capitalizedPokemonName =
     data.name.charAt(0).toUpperCase() + data.name.slice(1);
+
+  const handlePokemonChange = (data) => {
+    setSelectedPokemon(data);
+
+    // else I want to diplay a message that tells them to select a pokemon
+  };
 
   return (
     <li className="list" key={data.id}>
@@ -112,6 +122,9 @@ function AddedPokemon({ data, setPokemonInfo }) {
       <p>
         <button onClick={() => setPokemonInfo(data)} className="btn-add">
           View Details
+        </button>
+        <button onClick={() => handlePokemonChange(data)} className="btn-add">
+          Transform
         </button>
       </p>
     </li>
@@ -162,7 +175,7 @@ function PokemonInfo({ pokemonInfo, setPokemonInfo }) {
       <div className="title">
         <h2>{pokemonInfo.name}</h2>
         <button className="btn-close" onClick={() => setPokemonInfo(false)}>
-          Close
+          Back
         </button>
       </div>
 
