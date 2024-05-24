@@ -10,8 +10,9 @@ import WildPokemon from "./WildPokemon";
 import { WORLD_SIZE } from "../constants";
 import axios from "axios"; // Don't forget to import axios
 import CatchPokemon from "./CatchPokemon";
+import { scrollToPlayer } from "./ScrollToPlayer";
 
-function World({ setSelectedPokemon, selectedPokemon, playerName }) {
+function World({ setSelectedPokemon, selectedPokemon, playerName, flag }) {
   const [berries, setBerries] = useState({});
   const [berryCount, setBerryCount] = useState(0);
   const [pokeballs, setPokeballs] = useState({});
@@ -21,17 +22,18 @@ function World({ setSelectedPokemon, selectedPokemon, playerName }) {
   const [modalOpen, setModalOpen] = useState(false); // Open Catch Pokemon modal
   const [encounteredPokemon, setEncounteredPokemon] = useState();
   const [hpEnhance, setHpEnhance] = useState(0);
+  const [showInstructions, setShowInstructions] = useState(true);
 
-  StaticObjects(berries, setBerries, 5000, 5); // Generate berries
-  StaticObjects(pokeballs, setPokeballs, 5000, 5); // Generate pokeballs
+  StaticObjects(berries, setBerries, 2000, 10); // Generate berries
+  StaticObjects(pokeballs, setPokeballs, 2000, 10); // Generate pokeballs
 
   // 1. create WildPokemon Object API call store it in wildPokemon with x,y as Key
   useEffect(() => {
     const intervalId = setInterval(() => {
       // Execute only when wildPokemon length is less than 5
       if (Object.keys(wildPokemon).length < 5) {
-        const x = Math.floor(Math.random() * WORLD_SIZE);
-        const y = Math.floor(Math.random() * WORLD_SIZE);
+        const x = Math.floor(Math.random() * (WORLD_SIZE + 11));
+        const y = Math.floor(Math.random() * (WORLD_SIZE + 11));
         const fetchPokemon = async () => {
           try {
             const randomID = Math.floor(Math.random() * 1302) + 1;
@@ -52,6 +54,23 @@ function World({ setSelectedPokemon, selectedPokemon, playerName }) {
 
     return () => clearInterval(intervalId);
   }, [wildPokemon]);
+
+  // Handle spacebar to hide instructions and start the game
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (showInstructions && event.key === " ") {
+        event.preventDefault(); // Prevent default spacebar behavior
+        setShowInstructions(false);
+        scrollToPlayer();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   // debouncing
   const debounce = (func, delay) => {
@@ -115,15 +134,24 @@ function World({ setSelectedPokemon, selectedPokemon, playerName }) {
       }, 350); // Adjust the delay time as needed (in milliseconds)
     }
   };
+
   return (
     <>
+      {showInstructions && (
+        <div className="instruction-card">
+          <h2>Welcome to the Game!</h2>
+          <p>Use the arrow keys to move your player.</p>
+          <p>Press the spacebar to start playing.</p>
+        </div>
+      )}
       <NavBar
         playerName={playerName}
         selectedPokemon={selectedPokemon}
         hpEnhance={hpEnhance}
       />
+
       <div className="world">
-        <Landscape />
+        <Landscape className="landscape" />
         <Player
           selectedPokemon={selectedPokemon}
           onMove1={checkBerryCollision}
@@ -149,6 +177,7 @@ function World({ setSelectedPokemon, selectedPokemon, playerName }) {
           />
         ))}
       </div>
+
       <Pokedex
         myPokemonList={myPokemonList}
         pokeballCount={pokeballCount}
@@ -192,6 +221,7 @@ function Logo({ playerName, selectedPokemon, hpEnhance }) {
         />
       </div>
       <h2 className="main-title">{currentHp} HP</h2>
+      <button className="btn-add"></button>
     </div>
   );
 }

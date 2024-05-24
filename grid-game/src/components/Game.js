@@ -8,6 +8,7 @@ function Game() {
   const [playerName, setPlayerName] = useState("");
   const [entered, setEntered] = useState(false);
   const [ready, setReady] = useState(false);
+  const flag = false;
 
   const handleEnter = () => {
     setEntered(true);
@@ -22,6 +23,7 @@ function Game() {
               setSelectedPokemon={setSelectedPokemon}
               selectedPokemon={selectedPokemon}
               playerName={playerName}
+              flag={flag}
             />
           </div>
         ) : (

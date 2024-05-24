@@ -17,6 +17,7 @@ import cloud from "./images/beautiful-clouds-digital-art.png";
 import pokeball from "./images/pokeball.png";
 import battle from "./images/battle.png";
 import dpokeball from "./images/3dpokeball.png";
+import tree from "./images/treesvg.png";
 
 export {
   boatUp,
@@ -38,4 +39,5 @@ export {
   pokeball,
   battle,
   dpokeball,
+  tree,
 };
