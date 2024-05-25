@@ -12,7 +12,7 @@ import axios from "axios"; // Don't forget to import axios
 import CatchPokemon from "./CatchPokemon";
 import { scrollToPlayer } from "./ScrollToPlayer";
 
-function World({ setSelectedPokemon, selectedPokemon, playerName, flag }) {
+function World({ setSelectedPokemon, selectedPokemon, playerName }) {
   const [berries, setBerries] = useState({});
   const [berryCount, setBerryCount] = useState(0);
   const [pokeballs, setPokeballs] = useState({});
@@ -134,12 +134,13 @@ function World({ setSelectedPokemon, selectedPokemon, playerName, flag }) {
       }, 350); // Adjust the delay time as needed (in milliseconds)
     }
   };
+  const worldElement = document.querySelector(".world");
 
   return (
     <>
       {showInstructions && (
         <div className="instruction-card">
-          <h2>Welcome to the Game!</h2>
+          <h2>Welcome {playerName}!</h2>
           <p>Use the arrow keys to move your player.</p>
           <p>Press the spacebar to start playing.</p>
         </div>
@@ -212,16 +213,38 @@ function Logo({ playerName, selectedPokemon, hpEnhance }) {
   const currentHp = hpStat.base_stat + hpEnhance;
 
   return (
-    <div className="logo">
-      <div className="title">
+    <div
+      className="logo"
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "right",
+      }}
+    >
+      <div>
         <img
           src={selectedPokemon.sprites["front_default"]}
           alt={selectedPokemon.name}
           style={{ width: "100px", height: "100px", marginBottom: "-10px" }}
         />
       </div>
+      <div>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="22"
+          height="22"
+          fill="currentColor"
+          class="bi bi-heart-fill"
+          viewBox="0 0 16 16"
+          style={{ marginTop: "4" }}
+        >
+          <path
+            fill-rule="evenodd"
+            d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"
+          />
+        </svg>
+      </div>
       <h2 className="main-title">{currentHp} HP</h2>
-      <button className="btn-add"></button>
     </div>
   );
 }

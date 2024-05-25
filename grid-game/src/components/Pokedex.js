@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { dpokeball } from "../images";
 import { berry } from "../images";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Pokedex({
   myPokemonList,
@@ -89,23 +90,46 @@ function YourPokemon({
     <div className="summary">
       <div className="title">
         <h2>Pokédex</h2>
-        <button className="btn-toggle" onClick={togglePokedex}>
-          Close
-        </button>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          fill="currentColor"
+          class="bi bi-x-circle"
+          viewBox="0 0 16 16"
+          onClick={togglePokedex}
+          style={{
+            cursor: "pointer",
+            position: "absolute",
+            right: "1.2rem",
+            top: "2.2rem",
+          }}
+        >
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+          <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+        </svg>
       </div>
 
       <div className="pokedexSum">
         <p>
-          <img src={dpokeball} />
+          <img
+            src={dpokeball}
+            alt="Pokeball"
+            style={{ width: "35px", height: "35px" }}
+          />
           <span>{pokeballCount}</span>
         </p>
         <p>
-          <img src={berry} />
+          <img
+            src={berry}
+            alt="Berry"
+            style={{ width: "50px", height: "50px", marginRight: "-8px" }}
+          />
           <span>{berryCount}</span>
         </p>
         <p>
           <span>#️⃣</span>
-          <span>Unique Pokémon: {Object.keys(myPokemonList).length}</span>
+          <span>Pokémon: {Object.keys(myPokemonList).length}</span>
         </p>
       </div>
       <ul className="list">
@@ -213,7 +237,7 @@ function Summary({ pokeballCount, berryCount, myPokemonList, togglePokedex }) {
           <img
             src={dpokeball}
             alt="Pokeball"
-            style={{ width: "3vw", height: "3vw" }}
+            style={{ width: "35px", height: "35px" }}
           />
           <span>{pokeballCount}</span>
         </p>
@@ -221,22 +245,36 @@ function Summary({ pokeballCount, berryCount, myPokemonList, togglePokedex }) {
           <img
             src={berry}
             alt="Berry"
-            style={{ width: "4vw", height: "4vw" }}
+            style={{ width: "50px", height: "50px", marginRight: "-8px" }}
           />
           <span>{berryCount}</span>
         </p>
         <p>
-          <span>#</span>
+          <span style={{ fontSize: "2.0rem" }}>#</span>
           <span> {Object.keys(myPokemonList).length}</span>
         </p>
         <p>
-          <button
-            className="btn-toggle"
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="35"
+            height="35"
+            fill="currentColor"
+            class="bi bi-list"
+            viewBox="0 0 16 16"
             onClick={togglePokedex}
-            style={{ width: "3vw", height: "3vw" }}
+            style={{
+              cursor: "pointer",
+              position: "absolute",
+              right: "0.8rem",
+              fontSize: "50%",
+              zIndex: 1500,
+            }}
           >
-            Open
-          </button>
+            <path
+              fill-rule="evenodd"
+              d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"
+            />
+          </svg>
         </p>
       </div>
     </div>
