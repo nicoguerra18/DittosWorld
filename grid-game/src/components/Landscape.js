@@ -10,7 +10,6 @@ import {
 } from "../images";
 import { WORLD_SIZE, TILE_ASPECT_RATIO } from "../constants";
 import Tile from "./Tile";
-import { useEffect } from "react";
 
 const yOffset = ((100 / WORLD_SIZE) * TILE_ASPECT_RATIO) / 1.8;
 const tiles = [];

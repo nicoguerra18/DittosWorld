@@ -55,7 +55,13 @@ img {
   top: 240px; /* Add this line */
   left: 380px;
   transform: scale(1.8); /* Replace zoom with transform: scale */
-  transform-origin: center center; /* Ensure scaling happens from the top left corner */
+  transition: transform 1.5s ease-in-out;
+  transform-origin: var(--x) var(--y);
+}
+.zoomed {
+  transform: scale(4); /* Adjust the scale factor as needed */
+  transition: transform 1.8s ease-in-out;
+  transform-origin: var(--x) var(--y);
 }
 
 .tile {
@@ -78,11 +84,20 @@ img {
 
 .player {
   position: absolute;
-  z-index: 1000;
+  z-index: 1200;
   transform: translate(-50%, -50%);
-  transition: top 0.35s linear, left 0.35s linear, transform 0.35s linear;
+  transition: top 0.35s linear, left 0.35s linear, transform 0.35s linear,
+    opacity 0.5s ease-in-out;
   width: 60px;
   height: 60px;
+}
+
+.fade-out {
+  opacity: 0;
+}
+
+.fade-in {
+  opacity: 1;
 }
 
 .form-container {

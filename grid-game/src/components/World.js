@@ -23,9 +23,44 @@ function World({ setSelectedPokemon, selectedPokemon, playerName }) {
   const [encounteredPokemon, setEncounteredPokemon] = useState();
   const [hpEnhance, setHpEnhance] = useState(0);
   const [showInstructions, setShowInstructions] = useState(true);
+  const [isTransforming, setIsTransforming] = useState(false);
 
   StaticObjects(berries, setBerries, 2000, 10); // Generate berries
   StaticObjects(pokeballs, setPokeballs, 2000, 10); // Generate pokeballs
+
+  // function to trigger ZOOM in and transformation
+  const triggerTransformation = () => {
+    // Get the player element and its position
+    const playerElement = document.querySelector(".player");
+    const worldElement = document.querySelector(".world");
+
+    if (!playerElement || !worldElement) return;
+
+    const playerRect = playerElement.getBoundingClientRect();
+    const worldRect = worldElement.getBoundingClientRect();
+
+    // Calculate the transform-origin values as a percentage of the world element's dimensions
+    const x =
+      ((playerRect.left + playerRect.width / 2 - worldRect.left) /
+        worldRect.width) *
+      100;
+    const y =
+      ((playerRect.top + playerRect.height / 2 - worldRect.top) /
+        worldRect.height) *
+      100;
+
+    // Set the CSS variables for transform-origin
+    worldElement.style.setProperty("--x", `${x}%`);
+    worldElement.style.setProperty("--y", `${y}%`);
+
+    // Add the zoomed class to trigger the transformation
+    setIsTransforming(true);
+
+    // Set a timeout to remove the zoomed class and toggle isTransforming back to false after 5 seconds
+    setTimeout(() => {
+      setIsTransforming(false);
+    }, 5000);
+  };
 
   // 1. create WildPokemon Object API call store it in wildPokemon with x,y as Key
   useEffect(() => {
@@ -134,7 +169,6 @@ function World({ setSelectedPokemon, selectedPokemon, playerName }) {
       }, 350); // Adjust the delay time as needed (in milliseconds)
     }
   };
-  const worldElement = document.querySelector(".world");
 
   return (
     <>
@@ -151,8 +185,9 @@ function World({ setSelectedPokemon, selectedPokemon, playerName }) {
         hpEnhance={hpEnhance}
       />
 
-      <div className="world">
+      <div className={`world ${isTransforming ? "zoomed" : ""}`}>
         <Landscape className="landscape" />
+
         <Player
           selectedPokemon={selectedPokemon}
           onMove1={checkBerryCollision}
@@ -188,6 +223,7 @@ function World({ setSelectedPokemon, selectedPokemon, playerName }) {
         selectedPokemon={selectedPokemon}
         hpEnhance={hpEnhance}
         setBerryCount={setBerryCount}
+        triggerTransformation={triggerTransformation}
       />
       <CatchPokemonModal
         modalOpen={modalOpen}
@@ -276,6 +312,17 @@ function CatchPokemonModal({
       setCaughtFlag(false);
     }
   }, [modalOpen]); // Run this effect whenever modalOpen changes
+
+  useEffect(() => {
+    if (caughtFlag) {
+      const timer = setTimeout(() => {
+        setModalOpen(false);
+      }, 5000); // Delay of 2000ms or 2 seconds
+
+      return () => clearTimeout(timer); // Cleanup the timeout if component unmounts
+    }
+  }, [caughtFlag, setModalOpen]);
+
   return (
     <div className="modal" style={{ display: modalOpen ? "block" : "none" }}>
       <div className="modal-content">

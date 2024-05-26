@@ -20,7 +20,7 @@ function CatchPokemon({
   useEffect(() => {
     // Reset the caught message when caughtFlag changes
     setShowCaughtMessage(false);
-  }, [caughtFlag]);
+  }, [caughtFlag, pokeballCount]);
 
   useEffect(() => {
     const handleKeyPress = (event) => {
@@ -85,7 +85,7 @@ function CatchPokemon({
       top: window.innerHeight * 0.2,
     }; // Position of the center of the viewport
 
-    const speed = 4; // Adjust speed as needed
+    const speed = 3.5; // Adjust speed as needed
     let currentLeft = startPosition.left;
     let currentTop = startPosition.top;
 

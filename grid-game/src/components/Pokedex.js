@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { useState } from "react";
 import { dpokeball } from "../images";
 import { berry } from "../images";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { scrollToPlayer } from "./ScrollToPlayer";
 
 function Pokedex({
   myPokemonList,
@@ -14,17 +14,37 @@ function Pokedex({
   setHpEnhance,
   selectedPokemon,
   hpEnhance,
+  triggerTransformation,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [pokemonInfo, setPokemonInfo] = useState(null);
+  const pokedexRef = useRef(null);
 
   const togglePokedex = () => {
     setIsOpen((open) => !open);
   };
 
+  // CLICK OUTSIDE POKEDEX TO CLOSE IT
+  const handleClickOutside = (event) => {
+    if (pokedexRef.current && !pokedexRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
   return (
     <>
-      <div className="box">
+      <div className="box" ref={pokedexRef}>
         {pokemonInfo ? (
           <PokemonInfo
             pokemonInfo={pokemonInfo}
@@ -46,6 +66,7 @@ function Pokedex({
                 selectedPokemon={selectedPokemon}
                 hpEnhance={hpEnhance}
                 setBerryCount={setBerryCount}
+                triggerTransformation={triggerTransformation}
               />
             ) : (
               <Summary
@@ -74,6 +95,7 @@ function YourPokemon({
   setHpEnhance,
   selectedPokemon,
   hpEnhance,
+  triggerTransformation,
 }) {
   // Find the HP stat
   const hpStat = selectedPokemon.stats.find((stat) => stat.stat.name === "hp");
@@ -177,6 +199,7 @@ function YourPokemon({
             setPokemonInfo={setPokemonInfo}
             setSelectedPokemon={setSelectedPokemon}
             setHpEnhance={setHpEnhance}
+            triggerTransformation={triggerTransformation}
           />
         ))}
       </ul>
@@ -189,14 +212,19 @@ function AddedPokemon({
   setPokemonInfo,
   setSelectedPokemon,
   setHpEnhance,
+  triggerTransformation,
 }) {
   // Capitalize the first letter of the Pokemon name
   const capitalizedPokemonName =
     data.name.charAt(0).toUpperCase() + data.name.slice(1);
 
   const handlePokemonChange = (data) => {
-    setSelectedPokemon(data);
-    setHpEnhance(0);
+    triggerTransformation();
+
+    setTimeout(() => {
+      setSelectedPokemon(data);
+      setHpEnhance(0); // reset Hp bonus
+    }, 2000);
   };
 
   // Find the HP stat
