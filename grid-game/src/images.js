@@ -18,6 +18,7 @@ import pokeball from "./images/pokeball.png";
 import battle from "./images/battle.png";
 import dpokeball from "./images/3dpokeball.png";
 import tree from "./images/treesvg.png";
+import star from "./images/star.png";
 
 export {
   boatUp,
@@ -40,4 +41,5 @@ export {
   battle,
   dpokeball,
   tree,
+  star,
 };

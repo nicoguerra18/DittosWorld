@@ -5,12 +5,13 @@ import Berry from "./Berry";
 import StaticObjects from "./StaticObjects";
 import Pokeball from "./Pokeball";
 import Pokedex from "./Pokedex";
-import { dpokeball } from "../images";
 import WildPokemon from "./WildPokemon";
 import { WORLD_SIZE } from "../constants";
 import axios from "axios"; // Don't forget to import axios
-import CatchPokemon from "./CatchPokemon";
+import CatchPokemonModal from "./CatchPokemonModal";
 import { scrollToPlayer } from "./ScrollToPlayer";
+import LevelCard from "./LevelCard";
+import { star } from "../images";
 
 function World({ setSelectedPokemon, selectedPokemon, playerName }) {
   const [berries, setBerries] = useState({});
@@ -24,6 +25,11 @@ function World({ setSelectedPokemon, selectedPokemon, playerName }) {
   const [hpEnhance, setHpEnhance] = useState(0);
   const [showInstructions, setShowInstructions] = useState(true);
   const [isTransforming, setIsTransforming] = useState(false);
+  const [isLevelModalOpen, setIsLevelModalOpen] = useState(false);
+
+  const openLevelModal = () => {
+    setIsLevelModalOpen(true);
+  };
 
   StaticObjects(berries, setBerries, 2000, 10); // Generate berries
   StaticObjects(pokeballs, setPokeballs, 2000, 10); // Generate pokeballs
@@ -59,7 +65,7 @@ function World({ setSelectedPokemon, selectedPokemon, playerName }) {
     // Set a timeout to remove the zoomed class and toggle isTransforming back to false after 5 seconds
     setTimeout(() => {
       setIsTransforming(false);
-    }, 5000);
+    }, 4000);
   };
 
   // 1. create WildPokemon Object API call store it in wildPokemon with x,y as Key
@@ -183,6 +189,7 @@ function World({ setSelectedPokemon, selectedPokemon, playerName }) {
         playerName={playerName}
         selectedPokemon={selectedPokemon}
         hpEnhance={hpEnhance}
+        openLevelModal={openLevelModal}
       />
 
       <div className={`world ${isTransforming ? "zoomed" : ""}`}>
@@ -234,11 +241,16 @@ function World({ setSelectedPokemon, selectedPokemon, playerName }) {
         setPokeballCount={setPokeballCount}
         setMyPokemonList={setMyPokemonList}
       />
+      {console.log(isLevelModalOpen)}
+
+      {isLevelModalOpen && (
+        <LevelCard setIsLevelModalOpen={setIsLevelModalOpen} />
+      )}
     </>
   );
 }
 
-function Logo({ playerName, selectedPokemon, hpEnhance }) {
+function Logo({ selectedPokemon, hpEnhance, openLevelModal }) {
   // Ensure selectedPokemon is loaded before accessing its properties
   if (!selectedPokemon || !selectedPokemon.stats) {
     return null; // or return a loading indicator
@@ -252,9 +264,8 @@ function Logo({ playerName, selectedPokemon, hpEnhance }) {
     <div
       className="logo"
       style={{
-        display: "flex",
         justifyContent: "space-between",
-        alignItems: "right",
+        width: "100%", // Make sure the container takes full width
       }}
     >
       <div>
@@ -281,69 +292,32 @@ function Logo({ playerName, selectedPokemon, hpEnhance }) {
         </svg>
       </div>
       <h2 className="main-title">{currentHp} HP</h2>
+      <div style={{ right: "10rem", position: "absolute" }}>
+        <h2 className="main-title">
+          <img
+            src={star}
+            onClick={openLevelModal}
+            className="star-icon"
+            alt="Star"
+          />
+          {"  "}1
+        </h2>
+      </div>
     </div>
   );
 }
 
-function NavBar({ playerName, selectedPokemon, hpEnhance }) {
+function NavBar({ selectedPokemon, hpEnhance, openLevelModal }) {
   return (
     <nav className="nav-bar">
       <div>
-        <Logo selectedPokemon={selectedPokemon} hpEnhance={hpEnhance} />
+        <Logo
+          selectedPokemon={selectedPokemon}
+          hpEnhance={hpEnhance}
+          openLevelModal={openLevelModal}
+        />
       </div>
     </nav>
-  );
-}
-
-function CatchPokemonModal({
-  modalOpen,
-  setModalOpen,
-  pokemon,
-  player,
-  pokeballCount,
-  setPokeballCount,
-  setMyPokemonList,
-}) {
-  const [caughtFlag, setCaughtFlag] = useState(false);
-
-  useEffect(() => {
-    if (modalOpen) {
-      // Reset caughtFlag to false when the modal opens
-      setCaughtFlag(false);
-    }
-  }, [modalOpen]); // Run this effect whenever modalOpen changes
-
-  useEffect(() => {
-    if (caughtFlag) {
-      const timer = setTimeout(() => {
-        setModalOpen(false);
-      }, 5000); // Delay of 2000ms or 2 seconds
-
-      return () => clearTimeout(timer); // Cleanup the timeout if component unmounts
-    }
-  }, [caughtFlag, setModalOpen]);
-
-  return (
-    <div className="modal" style={{ display: modalOpen ? "block" : "none" }}>
-      <div className="modal-content">
-        <span className="close" onClick={() => setModalOpen(false)}>
-          Leave
-        </span>
-        <div className="modal-body">
-          {pokemon && (
-            <CatchPokemon
-              pokemon={pokemon}
-              player={player}
-              pokeballCount={pokeballCount}
-              setPokeballCount={setPokeballCount}
-              setMyPokemonList={setMyPokemonList}
-              setCaughtFlag={setCaughtFlag}
-              caughtFlag={caughtFlag}
-            />
-          )}
-        </div>
-      </div>
-    </div>
   );
 }
 

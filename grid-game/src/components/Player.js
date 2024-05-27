@@ -88,7 +88,9 @@ function Player({ selectedPokemon, onMove1, onMove2, onMove3 }) {
   const yAbs = yBase + yOffset * player.x;
 
   // Get correct image from direction
+  // Get correct image from direction
   let src;
+  let directionClass = "";
 
   switch (player.dir) {
     case "up":
@@ -99,19 +101,22 @@ function Player({ selectedPokemon, onMove1, onMove2, onMove3 }) {
       break;
     case "left":
       src = pokemonSprites.left;
+      directionClass = "left";
       break;
     case "right":
       src = pokemonSprites.right;
+      directionClass = "left";
       break;
 
     default:
       break;
   }
+
   return (
     <>
       <img
         alt="no sprite for this dir"
-        className={`player ${player.dead && "dead"}`}
+        className={`player ${player.dead ? "dead" : ""} ${directionClass}`}
         style={{
           position: "absolute",
           top: `${yAbs}%`,
