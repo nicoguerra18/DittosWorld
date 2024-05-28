@@ -2,13 +2,17 @@ import React, { useState } from "react";
 import World from "./World";
 import "../index.css";
 import axios from "axios";
+import { useLocalStorageState } from "../hooks/useLocalStorageState";
 
 function Game() {
-  const [selectedPokemon, setSelectedPokemon] = useState(null);
-  const [playerName, setPlayerName] = useState("");
-  const [entered, setEntered] = useState(false);
-  const [ready, setReady] = useState(false);
-  const flag = false;
+  const [selectedPokemon, setSelectedPokemon] = useLocalStorageState(
+    [],
+    "selectedPokemon"
+  ); //Local Storage
+  const [playerName, setPlayerName] = useLocalStorageState("", "playerName"); //Local Storage
+  const [entered, setEntered] = useLocalStorageState(false, "entered"); //Local Storage
+  const [ready, setReady] = useLocalStorageState(false, "ready"); //Local Storage
+  //const [audio] = useState(new Audio("/backgroundMusic.mp3"));
 
   const handleEnter = () => {
     setEntered(true);
@@ -23,7 +27,6 @@ function Game() {
               setSelectedPokemon={setSelectedPokemon}
               selectedPokemon={selectedPokemon}
               playerName={playerName}
-              flag={flag}
             />
           </div>
         ) : (

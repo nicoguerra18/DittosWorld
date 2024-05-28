@@ -26,7 +26,6 @@ function Landscape() {
       {tiles.map((row, y) => {
         const yBase = yOffset * y;
         const xBase = 110 - (100 / 18) * y;
-
         return row.map((tile, x) => {
           const z = x + 100;
           const xAbs = xBase + (110 / 20) * x;

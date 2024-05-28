@@ -772,8 +772,6 @@ h2 {
 .star-icon {
   margin-bottom: -6px;
   cursor: pointer;
-  width: 40px;
-  height: 40px;
   transition: transform 0.2s ease-in-out; /* Add transition for smooth animation */
   margin-bottom: "-8px";
 }

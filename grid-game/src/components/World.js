@@ -11,24 +11,32 @@ import axios from "axios"; // Don't forget to import axios
 import CatchPokemonModal from "./CatchPokemonModal";
 import { scrollToPlayer } from "./ScrollToPlayer";
 import LevelCard from "./LevelCard";
-import { star } from "../images";
+import NavBar from "./NavBar";
+import SettingCard from "./SettingCard";
+import { useLocalStorageState } from "../hooks/useLocalStorageState";
 
 function World({ setSelectedPokemon, selectedPokemon, playerName }) {
-  const [berries, setBerries] = useState({});
-  const [berryCount, setBerryCount] = useState(0);
-  const [pokeballs, setPokeballs] = useState({});
-  const [pokeballCount, setPokeballCount] = useState(0);
-  const [myPokemonList, setMyPokemonList] = useState({});
-  const [wildPokemon, setWildPokemon] = useState({});
-  const [modalOpen, setModalOpen] = useState(false); // Open Catch Pokemon modal
-  const [encounteredPokemon, setEncounteredPokemon] = useState();
-  const [hpEnhance, setHpEnhance] = useState(0);
-  const [showInstructions, setShowInstructions] = useState(true);
-  const [isTransforming, setIsTransforming] = useState(false);
-  const [isLevelModalOpen, setIsLevelModalOpen] = useState(false);
+  const [berries, setBerries] = useLocalStorageState({}, "berries");
+  const [berryCount, setBerryCount] = useLocalStorageState(0, "berryCount");
+  const [pokeballs, setPokeballs] = useLocalStorageState({}, "pokeballs");
+  const [pokeballCount, setPokeballCount] = useLocalStorageState(0, "pokeballCount");
+  const [myPokemonList, setMyPokemonList] = useLocalStorageState({}, "myPokemonList");
+  const [wildPokemon, setWildPokemon] = useLocalStorageState({}, "wildPokemon");
+  const [modalOpen, setModalOpen] = useLocalStorageState(false, "modalOpen");
+  const [encounteredPokemon, setEncounteredPokemon] = useLocalStorageState(null, "encounteredPokemon");
+  const [hpEnhance, setHpEnhance] = useLocalStorageState(0, "hpEnhance");
+  const [showInstructions, setShowInstructions] = useLocalStorageState(true, "showInstructions");
+  const [isTransforming, setIsTransforming] = useLocalStorageState(false, "isTransforming");
+  const [isLevelModalOpen, setIsLevelModalOpen] = useLocalStorageState(false, "isLevelModalOpen");
+  const [isSettingsOpen, setIsSettingsOpen] = useLocalStorageState(false, "isSettingsOpen");
+
 
   const openLevelModal = () => {
     setIsLevelModalOpen(true);
+  };
+
+  const openSettingModal = () => {
+    setIsSettingsOpen(true);
   };
 
   StaticObjects(berries, setBerries, 2000, 10); // Generate berries
@@ -190,6 +198,7 @@ function World({ setSelectedPokemon, selectedPokemon, playerName }) {
         selectedPokemon={selectedPokemon}
         hpEnhance={hpEnhance}
         openLevelModal={openLevelModal}
+        openSettingModal={openSettingModal}
       />
 
       <div className={`world ${isTransforming ? "zoomed" : ""}`}>
@@ -241,83 +250,12 @@ function World({ setSelectedPokemon, selectedPokemon, playerName }) {
         setPokeballCount={setPokeballCount}
         setMyPokemonList={setMyPokemonList}
       />
-      {console.log(isLevelModalOpen)}
 
       {isLevelModalOpen && (
         <LevelCard setIsLevelModalOpen={setIsLevelModalOpen} />
       )}
+      {isSettingsOpen && <SettingCard setIsSettingsOpen={setIsSettingsOpen} />}
     </>
-  );
-}
-
-function Logo({ selectedPokemon, hpEnhance, openLevelModal }) {
-  // Ensure selectedPokemon is loaded before accessing its properties
-  if (!selectedPokemon || !selectedPokemon.stats) {
-    return null; // or return a loading indicator
-  }
-
-  // Find the HP stat
-  const hpStat = selectedPokemon.stats.find((stat) => stat.stat.name === "hp");
-  const currentHp = hpStat.base_stat + hpEnhance;
-
-  return (
-    <div
-      className="logo"
-      style={{
-        justifyContent: "space-between",
-        width: "100%", // Make sure the container takes full width
-      }}
-    >
-      <div>
-        <img
-          src={selectedPokemon.sprites["front_default"]}
-          alt={selectedPokemon.name}
-          style={{ width: "100px", height: "100px", marginBottom: "-10px" }}
-        />
-      </div>
-      <div>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="22"
-          height="22"
-          fill="currentColor"
-          class="bi bi-heart-fill"
-          viewBox="0 0 16 16"
-          style={{ marginTop: "4" }}
-        >
-          <path
-            fill-rule="evenodd"
-            d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"
-          />
-        </svg>
-      </div>
-      <h2 className="main-title">{currentHp} HP</h2>
-      <div style={{ right: "10rem", position: "absolute" }}>
-        <h2 className="main-title">
-          <img
-            src={star}
-            onClick={openLevelModal}
-            className="star-icon"
-            alt="Star"
-          />
-          {"  "}1
-        </h2>
-      </div>
-    </div>
-  );
-}
-
-function NavBar({ selectedPokemon, hpEnhance, openLevelModal }) {
-  return (
-    <nav className="nav-bar">
-      <div>
-        <Logo
-          selectedPokemon={selectedPokemon}
-          hpEnhance={hpEnhance}
-          openLevelModal={openLevelModal}
-        />
-      </div>
-    </nav>
   );
 }
 
