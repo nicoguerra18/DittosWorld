@@ -29,6 +29,8 @@ function World({ setSelectedPokemon, selectedPokemon, playerName }) {
   const [isTransforming, setIsTransforming] = useLocalStorageState(false, "isTransforming");
   const [isLevelModalOpen, setIsLevelModalOpen] = useLocalStorageState(false, "isLevelModalOpen");
   const [isSettingsOpen, setIsSettingsOpen] = useLocalStorageState(false, "isSettingsOpen");
+  const [isMusicOn, setIsMusicOn] = useState(false);
+  const [audio] = useState(new Audio("/backgroundMusic.mp3"));
 
 
   const openLevelModal = () => {
@@ -254,7 +256,14 @@ function World({ setSelectedPokemon, selectedPokemon, playerName }) {
       {isLevelModalOpen && (
         <LevelCard setIsLevelModalOpen={setIsLevelModalOpen} />
       )}
-      {isSettingsOpen && <SettingCard setIsSettingsOpen={setIsSettingsOpen} />}
+      {isSettingsOpen && (
+        <SettingCard
+          setIsSettingsOpen={setIsSettingsOpen}
+          isMusicOn={isMusicOn}
+          setIsMusicOn={setIsMusicOn}
+          audio={audio}
+        />
+      )}
     </>
   );
 }
