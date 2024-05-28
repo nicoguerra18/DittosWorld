@@ -14,7 +14,7 @@ export default function LevelCard({ setIsLevelModalOpen }) {
         Close
       </button>
       <div>
-        <h2>Current Level: 1</h2>
+        <h2 style={{ color: "#fa5252" }}>Current Level: 1</h2>
       </div>
       <div className="tasks">
         <div className="task">

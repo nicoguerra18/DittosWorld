@@ -757,7 +757,7 @@ h2 {
 }
 
 .task {
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 
 .task h3 {
@@ -778,4 +778,10 @@ h2 {
 
 .star-icon:hover {
   transform: scale(1.2); /* Scale the star icon on hover */
+}
+
+.radio {
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
 }
