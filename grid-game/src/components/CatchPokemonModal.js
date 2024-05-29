@@ -10,6 +10,7 @@ export default function CatchPokemonModal({
   pokeballCount,
   setPokeballCount,
   setMyPokemonList,
+  setProgress,
 }) {
   const [caughtFlag, setCaughtFlag] = useState(false);
 
@@ -46,6 +47,7 @@ export default function CatchPokemonModal({
               setMyPokemonList={setMyPokemonList}
               setCaughtFlag={setCaughtFlag}
               caughtFlag={caughtFlag}
+              setProgress={setProgress}
             />
           )}
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import World from "./World";
 import "../index.css";
 import axios from "axios";
@@ -12,7 +12,10 @@ function Game() {
   const [playerName, setPlayerName] = useLocalStorageState("", "playerName"); //Local Storage
   const [entered, setEntered] = useLocalStorageState(false, "entered"); //Local Storage
   const [ready, setReady] = useLocalStorageState(false, "ready"); //Local Storage
-  //const [audio] = useState(new Audio("/backgroundMusic.mp3"));
+  const [myPokemonList, setMyPokemonList] = useLocalStorageState(
+    {},
+    "myPokemonList"
+  );
 
   const handleEnter = () => {
     setEntered(true);
@@ -27,6 +30,8 @@ function Game() {
               setSelectedPokemon={setSelectedPokemon}
               selectedPokemon={selectedPokemon}
               playerName={playerName}
+              myPokemonList={myPokemonList}
+              setMyPokemonList={setMyPokemonList}
             />
           </div>
         ) : (
@@ -35,6 +40,7 @@ function Game() {
             setReady={setReady}
             playerName={playerName}
             setPlayerName={setPlayerName}
+            setMyPokemonList={setMyPokemonList}
           />
         )
       ) : (
@@ -48,9 +54,52 @@ function IntroPage({ handleEnter }) {
   return (
     <div className="intro-container">
       <div className="intro-content">
-        <h2>Welcome to the game!</h2>
+        <h2 className="intro-title">Welcome to Ditto's World!</h2>
+        <div className="intro-card2">
+          <p>
+            Once upon a time, in the vibrant and diverse Pokémon world, lived a
+            peculiar Pokémon named <b>Ditto</b>. Unlike others, Ditto possessed
+            the extraordinary ability to transform into any Pokémon it
+            encountered. Yet, despite this remarkable talent, Ditto felt a deep
+            longing for purpose and identity.
+          </p>
+          <p>
+            One fateful day, while wandering through the lush forests of its
+            homeland, Ditto stumbled upon a group of Pokémon trainers engaged in
+            an intense battle. Mesmerized by the spectacle before it, Ditto felt
+            a stirring within its core as it witnessed the unique skills of each
+            trainer and Pokémon. Inspired by this sight, Ditto made a
+            life-changing decision: to embark on a journey of self-discovery and
+            transformation. With newfound determination burning within his{" "}
+            <b style={{ color: "purple" }}>purple gelatinous </b>
+            form, Ditto's transformation that day, though not physical, was
+            undoubtedly his most profound.{" "}
+          </p>
+          <p>
+            Despite facing mockery and ridicule from the community, Ditto
+            remained unwavering in his resolve of becoming a Pokémon trainer.
+            Ditto’s elder prophesied a quest of self-discovery and the eventual
+            role as a beacon of peace, unity, and acceptance in the Pokémon
+            world. Ready to begin its great adventure, Ditto made a promise to
+            build meaningful connections with every Pokémon he encountered. His
+            aim was to unveil the true potential of its transformation
+            abilities, allowing himself to deeply empathize with other Pokémon.
+            This means understanding their
+            <b> struggles, perspectives, and experiences</b>, without any trace
+            of judgment, with the goal of fostering a sense of unity and
+            understanding in the Pokémon World.
+          </p>
+          <p>
+            With a heart brimming with gratitude and a newfound sense of
+            purpose, Ditto bid farewell to its companions and embarked on a new
+            chapter, eager to embrace fresh adventures and spread unity and
+            understanding throughout the Pokémon world.
+          </p>
+        </div>
+        <br />
+
         <button className="mybutton" onClick={handleEnter}>
-          Enter!
+          Enter
         </button>
       </div>
     </div>
@@ -62,112 +111,86 @@ function PokemonPicker({
   setReady,
   playerName,
   setPlayerName,
+  setMyPokemonList,
 }) {
-  const [pokemon, setPokemon] = useState("");
   const [pokemonData, setPokemonData] = useState([]);
   const [error, setError] = useState(null);
 
   const getPokemon = async () => {
     try {
-      const url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
+      const url = `https://pokeapi.co/api/v2/pokemon/ditto`; // Fetch Ditto directly
       const res = await axios.get(url);
       setPokemonData([res.data]);
+      // intialize list with ditto
+      setMyPokemonList((prevList) => {
+        return { ...prevList, [res.data.id]: res.data };
+      });
     } catch (e) {
       console.log(e);
-      setError("Please enter a valid Pokemon name.");
+      setError("Failed to fetch Ditto's data.");
     }
-  };
-
-  const handleChange = (e) => {
-    setPokemon(e.target.value.toLowerCase());
   };
 
   const handleNameChange = (e) => {
     setPlayerName(e.target.value);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Check if the input is empty
-    if (!pokemon.trim()) {
-      setError("Please enter a Pokemon name.");
-      return;
-    }
-    if (!playerName.trim()) {
-      setError("please enter your name");
-      return;
-    }
-    setError(null); // Clear the error state
-    getPokemon();
-  };
-
   const handleReady = () => {
-    if (pokemonData.length > 0 && playerName.length > 0) {
+    if (playerName.trim()) {
       setSelectedPokemon(pokemonData[0]);
       setReady(true);
     } else {
-      setError("Please enter name and/or choose pokemon");
+      if (!playerName.trim()) {
+        setError("Please enter your name.");
+      } else {
+        setError("Failed to fetch Ditto's data.");
+      }
     }
-    // else I want to diplay a message that tells them to select a pokemon
   };
+
+  useEffect(() => {
+    getPokemon();
+  }, []); // Fetch Ditto's data when component mounts
 
   return (
     <div className="intro-container">
       <div className="intro-content">
-        <h2>Choose Your Pokemon!</h2>
-        <form onSubmit={handleSubmit}>
+        <h2 className="intro-title">Welcome Ditto!</h2>
+        <form onSubmit={(e) => e.preventDefault()}>
           <label>
             <div>
               <input
                 className="search"
                 type="text"
                 onChange={handleNameChange}
-                placeholder="Choose you Name"
+                placeholder="Enter Your Name"
                 value={playerName}
               />
             </div>
-            <br />
-            <div>
-              <input
-                className="search"
-                type="text"
-                onChange={handleChange}
-                placeholder="Search Pokémon"
-                value={pokemon}
-              />
-            </div>
-
-            <button onClick={handleSubmit} className="mybutton">
-              Search
-            </button>
           </label>
         </form>
+        {error && <p>❌ {error}</p>}
         <div>
-          {!error &&
-            pokemonData.map((data) => (
-              <div key={data.id}>
-                <div>
-                  <img
-                    style={{
-                      width: "241px",
-                      height: "241px",
-                      transform: "scaleX(-1)",
-                    }}
-                    src={data.sprites["front_default"]}
-                    alt={data.name}
-                  />
-                </div>
+          {pokemonData.map((data) => (
+            <div key={data.id}>
+              <div>
+                <img
+                  style={{
+                    width: "241px",
+                    height: "241px",
+                    transform: "scaleX(-1)",
+                  }}
+                  src={data.sprites["front_default"]}
+                  alt={data.name}
+                />
               </div>
-            ))}
-          {error && <p>❌ {error}</p>}
+            </div>
+          ))}
         </div>
         <br />
-        {pokemonData.length > 0 && ( // Conditionally render the button
-          <button className="mybutton" onClick={handleReady}>
-            Select Pokemon
-          </button>
-        )}
+        <button className="mybutton" onClick={handleReady}>
+          Start Adventure
+        </button>
       </div>
     </div>
   );

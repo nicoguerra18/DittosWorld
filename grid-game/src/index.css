@@ -272,6 +272,9 @@ img {
   cursor: pointer;
   transition: all 0.3s;
 }
+.mybutton:hover {
+  transform: scale(1.1); /* Scale the star icon on hover */
+}
 
 h2 {
   font-size: 4vw;
@@ -780,8 +783,64 @@ h2 {
   transform: scale(1.2); /* Scale the star icon on hover */
 }
 
+.btn-add:hover {
+  transform: scale(1.05); /* Scale the star icon on hover */
+
+}
+
 .radio {
   height: 20px;
   width: 20px;
   cursor: pointer;
+}
+
+.intro-card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.intro-card2 {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 700px;
+  height: 475px;
+
+  overflow: scroll;
+  margin: 0 auto;
+}
+
+.intro-card h2 {
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+.intro-card p {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 16px;
+  color: #000000;
+}
+
+.intro-card2 h2 {
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+.intro-card2 p {
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 16px;
+  color: #000000;
+}
+
+.intro-title {
+  font-size: 48px;
 }

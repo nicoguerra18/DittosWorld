@@ -15,23 +15,88 @@ import NavBar from "./NavBar";
 import SettingCard from "./SettingCard";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
 
-function World({ setSelectedPokemon, selectedPokemon, playerName }) {
+// Level Requirements
+const levelRequirements = [
+  { level: 1, catchPokemon: 2, collectPokeballs: 2, collectBerries: 2 },
+  { level: 2, catchPokemon: 5, collectPokeballs: 5, collectBerries: 10 },
+  { level: 3, catchPokemon: 7, collectPokeballs: 5, collectBerries: 5 },
+  { level: 4, catchPokemon: 10, collectPokeballs: 5, collectBerries: 10 },
+  { level: 5, catchPokemon: 15, collectPokeballs: 10, collectBerries: 7 },
+  { level: 6, catchPokemon: 5, collectPokeballs: 10, collectBerries: 20 },
+  { level: 7, catchPokemon: 50, collectPokeballs: 10, collectBerries: 15 },
+  // Add more levels as needed
+];
+
+function World({
+  setSelectedPokemon,
+  selectedPokemon,
+  playerName,
+  myPokemonList,
+  setMyPokemonList,
+}) {
   const [berries, setBerries] = useLocalStorageState({}, "berries");
   const [berryCount, setBerryCount] = useLocalStorageState(0, "berryCount");
   const [pokeballs, setPokeballs] = useLocalStorageState({}, "pokeballs");
-  const [pokeballCount, setPokeballCount] = useLocalStorageState(0, "pokeballCount");
-  const [myPokemonList, setMyPokemonList] = useLocalStorageState({}, "myPokemonList");
+  const [pokeballCount, setPokeballCount] = useLocalStorageState(
+    0,
+    "pokeballCount"
+  );
   const [wildPokemon, setWildPokemon] = useLocalStorageState({}, "wildPokemon");
   const [modalOpen, setModalOpen] = useLocalStorageState(false, "modalOpen");
-  const [encounteredPokemon, setEncounteredPokemon] = useLocalStorageState(null, "encounteredPokemon");
+  const [encounteredPokemon, setEncounteredPokemon] = useLocalStorageState(
+    null,
+    "encounteredPokemon"
+  );
   const [hpEnhance, setHpEnhance] = useLocalStorageState(0, "hpEnhance");
-  const [showInstructions, setShowInstructions] = useLocalStorageState(true, "showInstructions");
-  const [isTransforming, setIsTransforming] = useLocalStorageState(false, "isTransforming");
-  const [isLevelModalOpen, setIsLevelModalOpen] = useLocalStorageState(false, "isLevelModalOpen");
-  const [isSettingsOpen, setIsSettingsOpen] = useLocalStorageState(false, "isSettingsOpen");
+  const [showInstructions, setShowInstructions] = useLocalStorageState(
+    true,
+    "showInstructions"
+  );
+  const [isTransforming, setIsTransforming] = useLocalStorageState(
+    false,
+    "isTransforming"
+  );
+  const [isLevelModalOpen, setIsLevelModalOpen] = useLocalStorageState(
+    false,
+    "isLevelModalOpen"
+  );
+  const [isSettingsOpen, setIsSettingsOpen] = useLocalStorageState(
+    false,
+    "isSettingsOpen"
+  );
   const [isMusicOn, setIsMusicOn] = useState(false);
   const [audio] = useState(new Audio("/backgroundMusic.mp3"));
+  const [currentLevel, setCurrentLevel] = useLocalStorageState(
+    1,
+    "currentLevel"
+  );
+  const [progress, setProgress] = useLocalStorageState(
+    { catchPokemon: 0, collectPokeballs: 0, collectBerries: 0 },
+    "progress"
+  );
+  const [showLevelUpPopup, setShowLevelUpPopup] = useState(false); // State for showing level up pop-up
 
+  const checkLevelCompletion = () => {
+    const currentRequirements = levelRequirements.find(
+      (req) => req.level === currentLevel
+    );
+    if (
+      (currentRequirements.catchPokemon === undefined ||
+        progress.catchPokemon >= currentRequirements.catchPokemon) &&
+      (currentRequirements.collectPokeballs === undefined ||
+        progress.collectPokeballs >= currentRequirements.collectPokeballs) &&
+      (currentRequirements.collectBerries === undefined ||
+        progress.collectBerries >= currentRequirements.collectBerries)
+    ) {
+      setCurrentLevel((prevLevel) => prevLevel + 1);
+      setProgress({ catchPokemon: 0, collectPokeballs: 0, collectBerries: 0 });
+      setShowLevelUpPopup(true); // Show level up pop-up
+    }
+  };
+
+  useEffect(() => {
+    checkLevelCompletion();
+  }, [progress]);
 
   const openLevelModal = () => {
     setIsLevelModalOpen(true);
@@ -144,6 +209,10 @@ function World({ setSelectedPokemon, selectedPokemon, playerName }) {
         return updatedBerries;
       });
       // Increase the player's score when they catch a berry
+      setProgress((prevProgress) => ({
+        ...prevProgress,
+        collectBerries: prevProgress.collectBerries + 1,
+      }));
       setBerryCount((prevCount) => prevCount + 1);
     }
   }, 310);
@@ -159,14 +228,17 @@ function World({ setSelectedPokemon, selectedPokemon, playerName }) {
         delete updatedPokeballs[playerPosition];
         return updatedPokeballs;
       });
-      // increase the player's score when they catch a berry
-      console.log("collision");
+      // increase the player's score when they catch a pokeball
+      setProgress((prevProgress) => ({
+        ...prevProgress,
+        collectPokeballs: prevProgress.collectPokeballs + 1,
+      }));
       setPokeballCount((prevCount) => prevCount + 1);
     }
   }, 310);
 
   // Catch Pokemon (for now just catch it by moving on it)
-  const checkPokemonCollision = (playerX, playerY) => {
+  const checkPokemonCollision = debounce((playerX, playerY) => {
     const playerPosition = `${playerX},${playerY}`;
     if (playerPosition in wildPokemon) {
       // Get the wild Pokemon object
@@ -184,14 +256,14 @@ function World({ setSelectedPokemon, selectedPokemon, playerName }) {
         });
       }, 350); // Adjust the delay time as needed (in milliseconds)
     }
-  };
+  }, 150);
 
   return (
     <>
       {showInstructions && (
         <div className="instruction-card">
           <h2>Welcome {playerName}!</h2>
-          <p>Use the arrow keys to move your player.</p>
+          <p>Use the arrow keys to move Ditto.</p>
           <p>Press the spacebar to start playing.</p>
         </div>
       )}
@@ -201,6 +273,7 @@ function World({ setSelectedPokemon, selectedPokemon, playerName }) {
         hpEnhance={hpEnhance}
         openLevelModal={openLevelModal}
         openSettingModal={openSettingModal}
+        currentLevel={currentLevel}
       />
 
       <div className={`world ${isTransforming ? "zoomed" : ""}`}>
@@ -251,10 +324,15 @@ function World({ setSelectedPokemon, selectedPokemon, playerName }) {
         pokeballCount={pokeballCount}
         setPokeballCount={setPokeballCount}
         setMyPokemonList={setMyPokemonList}
+        setProgress={setProgress}
       />
 
       {isLevelModalOpen && (
-        <LevelCard setIsLevelModalOpen={setIsLevelModalOpen} />
+        <LevelCard
+          setIsLevelModalOpen={setIsLevelModalOpen}
+          progress={progress}
+          currentLevel={currentLevel}
+        />
       )}
       {isSettingsOpen && (
         <SettingCard
@@ -264,8 +342,25 @@ function World({ setSelectedPokemon, selectedPokemon, playerName }) {
           audio={audio}
         />
       )}
+      {showLevelUpPopup && (
+        <LevelUpPopup
+          currentLevel={currentLevel}
+          onClose={() => setShowLevelUpPopup(false)}
+        />
+      )}
     </>
   );
 }
+
+const LevelUpPopup = ({ currentLevel, onClose }) => {
+  return (
+    <div className="instruction-card">
+      <h2 style={{fontSize: "32px", color: "#fa5252"}}>Congratulations! You've reached level {currentLevel}! &#128513;</h2>
+      <button className="btn-add" onClick={onClose}>
+        Close
+      </button>
+    </div>
+  );
+};
 
 export default World;

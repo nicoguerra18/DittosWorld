@@ -9,6 +9,7 @@ function CatchPokemon({
   setMyPokemonList,
   setCaughtFlag,
   caughtFlag,
+  setProgress,
 }) {
   const [pokeballThrown, setPokeballThrown] = useState(false);
   const [pokeballPosition, setPokeballPosition] = useState({
@@ -40,6 +41,11 @@ function CatchPokemon({
             setMyPokemonList((prevList) => {
               return { ...prevList, [pokemon.id]: pokemon };
             });
+            // update level progress
+            setProgress((prevProgress) => ({
+              ...prevProgress,
+              catchPokemon: prevProgress.catchPokemon + 1,
+            }));
             setCaughtFlag(true);
           } else {
             // did not catch pokemon
