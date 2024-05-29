@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { atom, useRecoilValue, useRecoilState } from "recoil";
+import { atom, useRecoilState } from "recoil";
 import { WORLD_SIZE, TILE_ASPECT_RATIO } from "../constants";
 import { scrollToPlayer } from "./ScrollToPlayer";
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { WORLD_SIZE, TILE_ASPECT_RATIO } from "../constants";
 
 function WildPokemon({ x, y, pokemonData }) {

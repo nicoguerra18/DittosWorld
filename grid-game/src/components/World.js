@@ -235,7 +235,7 @@ function World({
       }));
       setPokeballCount((prevCount) => prevCount + 1);
     }
-  }, 310);
+  }, 320);
 
   // Catch Pokemon (for now just catch it by moving on it)
   const checkPokemonCollision = debounce((playerX, playerY) => {
