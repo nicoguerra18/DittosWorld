@@ -5,7 +5,7 @@ export default function NavBar({
   hpEnhance,
   openLevelModal,
   openSettingModal,
-  currentLevel
+  currentLevel,
 }) {
   return (
     <nav className="nav-bar">
@@ -27,7 +27,7 @@ function Logo({
   hpEnhance,
   openLevelModal,
   openSettingModal,
-  currentLevel
+  currentLevel,
 }) {
   // Ensure selectedPokemon is loaded before accessing its properties
   if (!selectedPokemon || !selectedPokemon.stats) {
@@ -81,10 +81,11 @@ function Logo({
             src={star}
             onClick={openLevelModal}
             className="star-icon"
-            style={{ width: "40px", height: "40px" }}
+            style={{ width: "40px", height: "40px", marginBottom: "-6px" }}
             alt="Star"
           />
-          {"  "}{currentLevel}
+          {"  "}
+          {currentLevel}
         </h2>
       </div>
       <div style={{ right: "9rem", position: "absolute" }}>
