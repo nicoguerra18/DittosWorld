@@ -19,6 +19,7 @@ import battle from "./images/battle.png";
 import dpokeball from "./images/3dpokeball.png";
 import tree from "./images/treesvg.png";
 import star from "./images/star.png";
+import ditto from "./images/ditto.png"
 
 export {
   boatUp,
@@ -42,4 +43,5 @@ export {
   dpokeball,
   tree,
   star,
+  ditto
 };

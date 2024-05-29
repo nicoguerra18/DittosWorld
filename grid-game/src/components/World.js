@@ -37,45 +37,24 @@ function World({
   const [berries, setBerries] = useLocalStorageState({}, "berries");
   const [berryCount, setBerryCount] = useLocalStorageState(0, "berryCount");
   const [pokeballs, setPokeballs] = useLocalStorageState({}, "pokeballs");
-  const [pokeballCount, setPokeballCount] = useLocalStorageState(
-    0,
-    "pokeballCount"
-  );
+  const [pokeballCount, setPokeballCount] = useLocalStorageState(0, "pokeballCount");
   const [wildPokemon, setWildPokemon] = useLocalStorageState({}, "wildPokemon");
   const [modalOpen, setModalOpen] = useLocalStorageState(false, "modalOpen");
-  const [encounteredPokemon, setEncounteredPokemon] = useLocalStorageState(
-    null,
-    "encounteredPokemon"
-  );
+  const [encounteredPokemon, setEncounteredPokemon] = useLocalStorageState(null,"encounteredPokemon");
   const [hpEnhance, setHpEnhance] = useLocalStorageState(0, "hpEnhance");
-  const [showInstructions, setShowInstructions] = useLocalStorageState(
-    true,
-    "showInstructions"
-  );
-  const [isTransforming, setIsTransforming] = useLocalStorageState(
-    false,
-    "isTransforming"
-  );
-  const [isLevelModalOpen, setIsLevelModalOpen] = useLocalStorageState(
-    false,
-    "isLevelModalOpen"
-  );
-  const [isSettingsOpen, setIsSettingsOpen] = useLocalStorageState(
-    false,
-    "isSettingsOpen"
-  );
+  const [showInstructions, setShowInstructions] = useLocalStorageState(true,"showInstructions");
+  const [isTransforming, setIsTransforming] = useLocalStorageState(false,"isTransforming");
+  const [isLevelModalOpen, setIsLevelModalOpen] = useLocalStorageState(false,"isLevelModalOpen");
+  const [isSettingsOpen, setIsSettingsOpen] = useLocalStorageState(false,"isSettingsOpen");
   const [isMusicOn, setIsMusicOn] = useState(false);
   const [audio] = useState(new Audio("/backgroundMusic.mp3"));
-  const [currentLevel, setCurrentLevel] = useLocalStorageState(
-    1,
-    "currentLevel"
-  );
+  const [currentLevel, setCurrentLevel] = useLocalStorageState(1,"currentLevel");
   const [progress, setProgress] = useLocalStorageState(
     { catchPokemon: 0, collectPokeballs: 0, collectBerries: 0 },
     "progress"
   );
   const [showLevelUpPopup, setShowLevelUpPopup] = useState(false); // State for showing level up pop-up
-
+  
   const checkLevelCompletion = () => {
     const currentRequirements = levelRequirements.find(
       (req) => req.level === currentLevel

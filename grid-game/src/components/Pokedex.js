@@ -184,7 +184,7 @@ function YourPokemon({
               style={{ backgroundColor: "#ffd700", color: "#000" }}
               onClick={handlePowerUp}
             >
-              Power Up+
+              Power Up +
             </button>
           </p>
         </li>
@@ -242,15 +242,41 @@ function AddedPokemon({
       {hpStat && <h2>{hpStat.base_stat} HP</h2>}
 
       <p>
-        <button onClick={() => setPokemonInfo(data)} className="btn-add">
-          View Details
+        <button
+          onClick={() => setPokemonInfo(data)}
+          className="btn-add"
+          style={{ backgroundColor: "#17B169" }}
+        >
+          Details{" "}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-search"
+            viewBox="0 0 16 16"
+            style={{ marginBottom: "-3px" }}
+          >
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+          </svg>
         </button>
         <button
           onClick={() => handlePokemonChange(data)}
           className="btn-add"
-          style={{ backgroundColor: "#3ed65d" }}
+          style={{ backgroundColor: "#9370DB" }}
         >
-          Transform
+          Transform{" "}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-repeat"
+            viewBox="0 0 16 16"
+            style={{ marginBottom: "-3px" }}
+          >
+            <path d="M11 5.466V4H5a4 4 0 0 0-3.584 5.777.5.5 0 1 1-.896.446A5 5 0 0 1 5 3h6V1.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192m3.81.086a.5.5 0 0 1 .67.225A5 5 0 0 1 11 13H5v1.466a.25.25 0 0 1-.41.192l-2.36-1.966a.25.25 0 0 1 0-.384l2.36-1.966a.25.25 0 0 1 .41.192V12h6a4 4 0 0 0 3.585-5.777.5.5 0 0 1 .225-.67Z" />
+          </svg>
         </button>
       </p>
     </li>
@@ -314,8 +340,24 @@ function PokemonInfo({ pokemonInfo, setPokemonInfo }) {
     <div className="summary">
       <div className="title">
         <h2>{pokemonInfo.name}</h2>
-        <button className="btn-close" onClick={() => setPokemonInfo(false)}>
-          Back
+        <button
+          className="btn-close"
+          style={{ backgroundColor: "#212529" }}
+          onClick={() => setPokemonInfo(false)}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="25"
+            height="25"
+            fill="currentColor"
+            class="bi bi-arrow-left"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
+            />
+          </svg>
         </button>
       </div>
 

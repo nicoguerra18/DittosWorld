@@ -785,7 +785,6 @@ h2 {
 
 .btn-add:hover {
   transform: scale(1.05); /* Scale the star icon on hover */
-
 }
 
 .radio {
@@ -810,9 +809,8 @@ h2 {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  max-width: 700px;
-  height: 475px;
-
+  max-width: 750px;
+  height: 480px;
   overflow: scroll;
   margin: 0 auto;
 }
@@ -837,10 +835,11 @@ h2 {
 .intro-card2 p {
   font-size: 14px;
   line-height: 1.5;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   color: #000000;
 }
 
 .intro-title {
-  font-size: 48px;
+  font-size: 50px;
+  margin-bottom: 15px;
 }

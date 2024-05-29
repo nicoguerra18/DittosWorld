@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import World from "./World";
 import "../index.css";
 import axios from "axios";
+import { ditto } from "../images";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
 
 function Game() {
@@ -56,36 +57,37 @@ function IntroPage({ handleEnter }) {
       <div className="intro-content">
         <h2 className="intro-title">Welcome to Ditto's World!</h2>
         <div className="intro-card2">
+        <img src={ditto} /> 
           <p>
             Once upon a time, in the vibrant and diverse Pokémon world, lived a
-            peculiar Pokémon named <b>Ditto</b>. Unlike others, Ditto possessed
+            peculiar Pokémon named <b style={{ fontSize: "16px", color: "purple" }}>Ditto</b>. Unlike others, Ditto possessed
             the extraordinary ability to transform into any Pokémon it
             encountered. Yet, despite this remarkable talent, Ditto felt a deep
             longing for purpose and identity.
           </p>
           <p>
-            One fateful day, while wandering through the lush forests of its
+            One fateful day, while wandering through the lush forests of his
             homeland, Ditto stumbled upon a group of Pokémon trainers engaged in
-            an intense battle. Mesmerized by the spectacle before it, Ditto felt
+            an intense battle. Mesmerized by the spectacle before it, he felt
             a stirring within its core as it witnessed the unique skills of each
-            trainer and Pokémon. Inspired by this sight, Ditto made a
+            trainer and Pokémon. Inspired by this sight, he made a
             life-changing decision: to embark on a journey of self-discovery and
             transformation. With newfound determination burning within his{" "}
-            <b style={{ color: "purple" }}>purple gelatinous </b>
-            form, Ditto's transformation that day, though not physical, was
+            <b style={{ fontSize: "16px", color: "purple" }}>purple gelatinous form </b>
+            , Ditto's transformation that day, though not physical, was
             undoubtedly his most profound.{" "}
           </p>
           <p>
             Despite facing mockery and ridicule from the community, Ditto
             remained unwavering in his resolve of becoming a Pokémon trainer.
             Ditto’s elder prophesied a quest of self-discovery and the eventual
-            role as a beacon of peace, unity, and acceptance in the Pokémon
+            role as a <b style={{ fontSize: "16px", color: "purple" }} >beacon of peace, unity, and acceptance</b> in the Pokémon
             world. Ready to begin its great adventure, Ditto made a promise to
             build meaningful connections with every Pokémon he encountered. His
             aim was to unveil the true potential of its transformation
             abilities, allowing himself to deeply empathize with other Pokémon.
             This means understanding their
-            <b> struggles, perspectives, and experiences</b>, without any trace
+            <b style={{ fontSize: "16px", color: "purple" }}> struggles, perspectives, and experiences</b>, without any trace
             of judgment, with the goal of fostering a sense of unity and
             understanding in the Pokémon World.
           </p>
@@ -95,7 +97,9 @@ function IntroPage({ handleEnter }) {
             chapter, eager to embrace fresh adventures and spread unity and
             understanding throughout the Pokémon world.
           </p>
+          
         </div>
+        
         <br />
 
         <button className="mybutton" onClick={handleEnter}>
