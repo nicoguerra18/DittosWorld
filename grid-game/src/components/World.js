@@ -335,7 +335,7 @@ const LevelUpPopup = ({ currentLevel, onClose }) => {
   return (
     <div className="instruction-card">
       <h2 style={{fontSize: "32px", color: "#fa5252"}}>Congratulations! You've reached level {currentLevel}! &#128513;</h2>
-      <button className="btn-add" onClick={onClose}>
+      <button className="btn-add2" onClick={onClose}>
         Close
       </button>
     </div>

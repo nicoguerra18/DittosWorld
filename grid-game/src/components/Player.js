@@ -3,11 +3,12 @@ import { atom, useRecoilValue, useRecoilState } from "recoil";
 import { WORLD_SIZE, TILE_ASPECT_RATIO } from "../constants";
 import { scrollToPlayer } from "./ScrollToPlayer";
 
+const playerState = atom({
+  key: "playerState",
+  default: { x: 10, y: 8, dir: "down", dead: false },
+});
+
 function Player({ selectedPokemon, onMove1, onMove2, onMove3 }) {
-  const playerState = atom({
-    key: "playerState",
-    default: { x: 10, y: 8, dir: "down", dead: false },
-  });
   const [player, setPlayer] = useRecoilState(playerState);
   const [canMove, setCanMove] = useState(true);
 

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { dpokeball } from "../images";
 import { berry } from "../images";
 import { scrollToPlayer } from "./ScrollToPlayer";
+import { bag } from "../images";
 
 function Pokedex({
   myPokemonList,
@@ -111,7 +112,13 @@ function YourPokemon({
   return (
     <div className="summary">
       <div className="title">
-        <h2>Pokédex</h2>
+        <h2>
+          Pokédex{" "}
+          <img
+            src={bag}
+            style={{ marginBottom: "-7px", width: "37px", height: "37px" }}
+          />
+        </h2>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { dpokeball } from "../images";
+import { useLocalStorageState } from "../hooks/useLocalStorageState";
 
 function CatchPokemon({
   pokemon,
@@ -17,6 +18,10 @@ function CatchPokemon({
     top: 0,
   });
   const [showCaughtMessage, setShowCaughtMessage] = useState(false); // New state for caught message
+  const [firstThrowFlag, setFirstThrowFlag] = useLocalStorageState(
+    true,
+    "firstThrowFlag"
+  );
 
   useEffect(() => {
     // Reset the caught message when caughtFlag changes
@@ -54,6 +59,7 @@ function CatchPokemon({
           // Decrease Count and set Pokeball thrown to true
           setPokeballCount((prevCount) => prevCount - 1); // Decrease pokeball count
           setPokeballThrown(true);
+          setFirstThrowFlag(false); // Set the first throw flag to false after the first throw
         } else {
           console.log("You have no more pokeballs / you cant throw");
         }
@@ -163,21 +169,15 @@ function CatchPokemon({
         />
       )}
       {showCaughtMessage && ( // Only show the message when showCaughtMessage is true
-        <div
-          style={{
-            position: "fixed",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            background: "rgba(255, 255, 255, 0.8)",
-            padding: "20px",
-            borderRadius: "10px",
-            boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)",
-          }}
-        >
+        <div className="message">
           {caughtFlag
             ? `You caught ${pokemon.name}!`
             : `You failed to catch ${pokemon.name}.`}
+        </div>
+      )}
+      {firstThrowFlag && (
+        <div className="message" style={{ top: "30rem ", left: "10rem" }}>
+          Press Space to Throw Pokeball
         </div>
       )}
     </>
