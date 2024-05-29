@@ -1,5 +1,5 @@
 # Ditto's World 
 
-## Technologies Used
+### Technologies Used
 - ReactJS
 - Vercel (deployment)
