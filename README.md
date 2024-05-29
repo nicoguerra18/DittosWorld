@@ -1,4 +1,4 @@
-### Ditto's World 
+# Ditto's World 
 
 ## Technologies Used
 - ReactJS
