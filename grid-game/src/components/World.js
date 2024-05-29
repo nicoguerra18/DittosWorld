@@ -106,8 +106,8 @@ function World({
     setIsSettingsOpen(true);
   };
 
-  StaticObjects(berries, setBerries, 2000, 10); // Generate berries
-  StaticObjects(pokeballs, setPokeballs, 2000, 10); // Generate pokeballs
+  StaticObjects(berries, setBerries, 2000, 13); // Generate berries
+  StaticObjects(pokeballs, setPokeballs, 2000, 13); // Generate pokeballs
 
   // function to trigger ZOOM in and transformation
   const triggerTransformation = () => {
@@ -166,7 +166,7 @@ function World({
         };
         fetchPokemon();
       }
-    }, 5000);
+    }, 4000);
 
     return () => clearInterval(intervalId);
   }, [wildPokemon]);
