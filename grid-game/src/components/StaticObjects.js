@@ -6,8 +6,8 @@ const StaticObjects = (objects, setObjects, interval, maxCount) => {
     const intervalId = setInterval(() => {
       if (Object.keys(objects).length < maxCount) {
         // Generate random coordinates for the new berry
-        const x = Math.floor(Math.random() * (WORLD_SIZE + 11));
-        const y = Math.floor(Math.random() * (WORLD_SIZE + 11));
+        const x = Math.floor(Math.random() * (WORLD_SIZE + 21));
+        const y = Math.floor(Math.random() * (WORLD_SIZE + 21));
         const newPosition = `${x},${y}`;
 
         // Berries and Pokeballs

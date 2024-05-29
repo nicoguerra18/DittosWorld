@@ -5,7 +5,7 @@ import { scrollToPlayer } from "./ScrollToPlayer";
 
 const playerState = atom({
   key: "playerState",
-  default: { x: 10, y: 8, dir: "down", dead: false },
+  default: { x: 25, y: 28, dir: "down", dead: false },
 });
 
 function Player({ selectedPokemon, onMove1, onMove2, onMove3 }) {
@@ -41,7 +41,7 @@ function Player({ selectedPokemon, onMove1, onMove2, onMove3 }) {
         case "ArrowDown":
           setPlayer((prevPlayer) => ({
             ...prevPlayer,
-            y: Math.min(prevPlayer.y + 1, WORLD_SIZE + 11 - 1),
+            y: Math.min(prevPlayer.y + 1, WORLD_SIZE + 21 - 1),
             dir: "down",
           }));
           //window.scrollBy({ top: 40, left: -40, behavior: "smooth" }); // Scroll
@@ -57,7 +57,7 @@ function Player({ selectedPokemon, onMove1, onMove2, onMove3 }) {
         case "ArrowRight":
           setPlayer((prevPlayer) => ({
             ...prevPlayer,
-            x: Math.min(prevPlayer.x + 1, WORLD_SIZE + 11 - 1),
+            x: Math.min(prevPlayer.x + 1, WORLD_SIZE + 21 - 1),
             dir: "right",
           }));
           //window.scrollBy({ left: 80, top: 40, behavior: "smooth" }); // Scroll right

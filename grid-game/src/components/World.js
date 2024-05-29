@@ -37,24 +37,45 @@ function World({
   const [berries, setBerries] = useLocalStorageState({}, "berries");
   const [berryCount, setBerryCount] = useLocalStorageState(0, "berryCount");
   const [pokeballs, setPokeballs] = useLocalStorageState({}, "pokeballs");
-  const [pokeballCount, setPokeballCount] = useLocalStorageState(0, "pokeballCount");
+  const [pokeballCount, setPokeballCount] = useLocalStorageState(
+    0,
+    "pokeballCount"
+  );
   const [wildPokemon, setWildPokemon] = useLocalStorageState({}, "wildPokemon");
   const [modalOpen, setModalOpen] = useLocalStorageState(false, "modalOpen");
-  const [encounteredPokemon, setEncounteredPokemon] = useLocalStorageState(null,"encounteredPokemon");
+  const [encounteredPokemon, setEncounteredPokemon] = useLocalStorageState(
+    null,
+    "encounteredPokemon"
+  );
   const [hpEnhance, setHpEnhance] = useLocalStorageState(0, "hpEnhance");
-  const [showInstructions, setShowInstructions] = useLocalStorageState(true,"showInstructions");
-  const [isTransforming, setIsTransforming] = useLocalStorageState(false,"isTransforming");
-  const [isLevelModalOpen, setIsLevelModalOpen] = useLocalStorageState(false,"isLevelModalOpen");
-  const [isSettingsOpen, setIsSettingsOpen] = useLocalStorageState(false,"isSettingsOpen");
+  const [showInstructions, setShowInstructions] = useLocalStorageState(
+    true,
+    "showInstructions"
+  );
+  const [isTransforming, setIsTransforming] = useLocalStorageState(
+    false,
+    "isTransforming"
+  );
+  const [isLevelModalOpen, setIsLevelModalOpen] = useLocalStorageState(
+    false,
+    "isLevelModalOpen"
+  );
+  const [isSettingsOpen, setIsSettingsOpen] = useLocalStorageState(
+    false,
+    "isSettingsOpen"
+  );
   const [isMusicOn, setIsMusicOn] = useState(false);
   const [audio] = useState(new Audio("/backgroundMusic.mp3"));
-  const [currentLevel, setCurrentLevel] = useLocalStorageState(1,"currentLevel");
+  const [currentLevel, setCurrentLevel] = useLocalStorageState(
+    1,
+    "currentLevel"
+  );
   const [progress, setProgress] = useLocalStorageState(
     { catchPokemon: 0, collectPokeballs: 0, collectBerries: 0 },
     "progress"
   );
   const [showLevelUpPopup, setShowLevelUpPopup] = useState(false); // State for showing level up pop-up
-  
+
   const checkLevelCompletion = () => {
     const currentRequirements = levelRequirements.find(
       (req) => req.level === currentLevel
@@ -127,8 +148,8 @@ function World({
     const intervalId = setInterval(() => {
       // Execute only when wildPokemon length is less than 5
       if (Object.keys(wildPokemon).length < 5) {
-        const x = Math.floor(Math.random() * (WORLD_SIZE + 11));
-        const y = Math.floor(Math.random() * (WORLD_SIZE + 11));
+        const x = Math.floor(Math.random() * (WORLD_SIZE + 21));
+        const y = Math.floor(Math.random() * (WORLD_SIZE + 21));
         const fetchPokemon = async () => {
           try {
             const randomID = Math.floor(Math.random() * 1302) + 1;
@@ -194,7 +215,7 @@ function World({
       }));
       setBerryCount((prevCount) => prevCount + 1);
     }
-  }, 310);
+  }, 320);
 
   const checkPokeballCollision = debounce((playerX, playerY) => {
     const playerPosition = `${playerX},${playerY}`;
@@ -257,7 +278,6 @@ function World({
 
       <div className={`world ${isTransforming ? "zoomed" : ""}`}>
         <Landscape className="landscape" />
-
         <Player
           selectedPokemon={selectedPokemon}
           onMove1={checkBerryCollision}
@@ -334,7 +354,9 @@ function World({
 const LevelUpPopup = ({ currentLevel, onClose }) => {
   return (
     <div className="instruction-card">
-      <h2 style={{fontSize: "32px", color: "#fa5252"}}>Congratulations! You've reached level {currentLevel}! &#128513;</h2>
+      <h2 style={{ fontSize: "32px", color: "#fa5252" }}>
+        Congratulations! You've reached level {currentLevel}! &#128513;
+      </h2>
       <button className="btn-add2" onClick={onClose}>
         Close
       </button>

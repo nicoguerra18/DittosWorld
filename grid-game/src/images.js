@@ -21,6 +21,7 @@ import tree from "./images/treesvg.png";
 import star from "./images/star.png";
 import ditto from "./images/ditto.png";
 import bag from "./images/bag.png";
+import darkball from "./images/darkball.png";
 
 export {
   boatUp,
@@ -46,4 +47,5 @@ export {
   star,
   ditto,
   bag,
+  darkball,
 };

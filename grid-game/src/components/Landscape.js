@@ -14,7 +14,7 @@ import Tile from "./Tile";
 const yOffset = ((100 / WORLD_SIZE) * TILE_ASPECT_RATIO) / 1.8;
 const tiles = [];
 
-const extendedSize = WORLD_SIZE + 11;
+const extendedSize = WORLD_SIZE + 21;
 
 for (let i = extendedSize; i > 0; i--) {
   tiles.push(Array(extendedSize).fill("grass"));

@@ -16,7 +16,7 @@ function Berry({ x, y }) {
         style={{
           top: `${yAbs}%`,
           left: `${xAbs}%`,
-          opacity: x < 0 || x > 20 ? 0 : 1,
+          opacity: x < 0 || x > 30 ? 0 : 1,
         }}
         src={berry}
       />
